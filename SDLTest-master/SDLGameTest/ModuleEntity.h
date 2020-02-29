@@ -9,6 +9,15 @@
 
 class SDL_Rect;
 
+enum enemiesState
+{
+	MOVING_RIGHT,
+	MOVING_DOWN,
+	MOVING_LEFT
+};
+
+//decided to have both enemies and player in the same class since adding an extra
+//hierarchy adds more complexity than necessary
 class Entity final
 {
 public:
@@ -40,12 +49,27 @@ public:
 
 	bool CleanUp() override;
 
+	void MoveEnemies(int x, int y);
+
 	update_status Update() override;
 
 public:
 	//first position is for the player
 	std::vector<Entity*> gameEntities =
 		std::vector<Entity*>(NUM_ENEMIES + 1);
+
+	//variables that keeps track of the most right and left side enemies
+	Entity* mostRightEnemy = nullptr;
+	Entity* mostLeftEnemy = nullptr;
+
+	//var that tells us which direction enemies are going
+	int direction = 1;
+
+	//variable that keeps track of the distance enemies travel when going down
+	//before switching directions
+	int stepsDown = 0;
+
+	enemiesState enemState = MOVING_RIGHT;
 	
 };
 

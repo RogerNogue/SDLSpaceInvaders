@@ -64,12 +64,24 @@ bool ModuleEntity::Init()
 		playerX, playerY, PLAYER_DIMENSIONS, PLAYER_DIMENSIONS, true);
 
 	//then all the enemies
+	int enemyY = STARTING_ENEMIES_Y;
+	int enemiesAtCurrentRow = 0;
 	for (int i = 1; i < NUM_ENEMIES+1; ++i)
 	{
-		//TODO(Roger): tune those values and remove magic number
+		int enemyX = STARTING_ENEMIES_X + ((i - 1) % ENEMIES_PER_ROW) * X_SEPARATION_BETWEEN_ENEMIES;
+		
+		if (enemiesAtCurrentRow >= ENEMIES_PER_ROW)
+		{
+			enemyY += Y_SEPARATION_BETWEEN_ENEMIES;
+			enemiesAtCurrentRow = 0;
+		}
+		
 		gameEntities[i] = new Entity(
-			i*ENEMY_DIMENSIONS, 50, ENEMY_DIMENSIONS, ENEMY_DIMENSIONS, false);
+			enemyX, enemyY, ENEMY_DIMENSIONS, ENEMY_DIMENSIONS, false);
+		++enemiesAtCurrentRow;
 	}
+	mostLeftEnemy = gameEntities[1];
+	mostRightEnemy = gameEntities[ENEMIES_PER_ROW];
 	return true;
 }
 
@@ -86,16 +98,84 @@ bool ModuleEntity::CleanUp()
 	return true;
 }
 
+void ModuleEntity::MoveEnemies(int x, int y)
+{
+	for (int i = 1; i < NUM_ENEMIES + 1; ++i)
+	{
+		gameEntities[i]->entityRect->x += x;
+		gameEntities[i]->entityRect->y += y;
+	}
+}
+
 //treats input and updates player and enemies
 update_status ModuleEntity::Update()
 {
-	if (App->input->keyboardState.Left == KEY_DOWN)
+	//player movement update
+	if (App->input->keyboardState.Left == KEY_DOWN && 
+		gameEntities[0]->entityRect->x > LEFT_BORDER_POSITION)
 	{
 		gameEntities[0]->entityRect->x -= PLAYER_SPEED;
 	}
-	if (App->input->keyboardState.Right == KEY_DOWN)
+	if (App->input->keyboardState.Right == KEY_DOWN &&
+		(gameEntities[0]->entityRect->x + PLAYER_DIMENSIONS) < RIGHT_BORDER_POSITION)
 	{
 		gameEntities[0]->entityRect->x += PLAYER_SPEED;
 	}
+
+	//enemies movement update
+	switch (enemState)
+	{
+	case MOVING_RIGHT:
+		//check if we got to right corner
+		if ((mostRightEnemy->entityRect->x + ENEMY_DIMENSIONS) > RIGHT_BORDER_POSITION)
+		{
+			enemState = MOVING_DOWN;
+			MoveEnemies(0, ENEMY_SPEED);
+			++stepsDown;
+		}
+		else
+		{
+			MoveEnemies(direction*ENEMY_SPEED, 0);
+		}
+		break;
+	case MOVING_LEFT:
+		//check if we got to left corner
+		if ((mostLeftEnemy->entityRect->x) < LEFT_BORDER_POSITION)
+		{
+			enemState = MOVING_DOWN;
+			MoveEnemies(0, ENEMY_SPEED);
+			++stepsDown;
+		}
+		else
+		{
+			MoveEnemies(direction * ENEMY_SPEED, 0);
+		}
+		break;
+	case MOVING_DOWN:
+		//check if we got down the specified distance
+		if (stepsDown == ENEMY_DOWN_STEPS)
+		{
+			if (direction == 1)
+			{
+				enemState = MOVING_LEFT;
+			}
+			else
+			{
+				enemState = MOVING_RIGHT;
+			}
+			stepsDown = 0;
+			direction *= -1;
+			MoveEnemies(direction * ENEMY_SPEED, 0);
+		}
+		else
+		{
+			MoveEnemies(0, ENEMY_SPEED);
+			++stepsDown;
+		}
+		break;
+	}
+
+
 	return UPDATE_CONTINUE;
+
 }
