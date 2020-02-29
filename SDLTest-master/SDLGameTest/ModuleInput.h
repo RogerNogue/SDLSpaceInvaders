@@ -10,7 +10,7 @@ enum KeyState
 	KEY_DOWN
 };
 
-struct keyboard
+struct Command
 {
 	KeyState Up;
 	KeyState Left;
@@ -32,7 +32,7 @@ public:
 
 
 public://variables
-	keyboard keyboardState;
+	Command keyboardState;
 };
 
 #endif

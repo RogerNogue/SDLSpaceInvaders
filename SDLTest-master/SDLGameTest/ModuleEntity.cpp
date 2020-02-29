@@ -1,6 +1,8 @@
 #include "ModuleEntity.h"
 #include "Application.h"
 
+#include "ModuleInput.h"
+
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <SDL.h>
@@ -57,7 +59,7 @@ bool ModuleEntity::Init()
 	//creates and initializes all the entities
 	//we create the player first
 	int playerX = SCREEN_WIDTH/2;
-	int playerY = SCREEN_HEIGHT - PLAYER_DIMENSIONS/2;
+	int playerY = SCREEN_HEIGHT - PLAYER_DIMENSIONS;
 	gameEntities[0] = new Entity(
 		playerX, playerY, PLAYER_DIMENSIONS, PLAYER_DIMENSIONS, true);
 
@@ -66,7 +68,7 @@ bool ModuleEntity::Init()
 	{
 		//TODO(Roger): tune those values and remove magic number
 		gameEntities[i] = new Entity(
-			i, 50, ENEMY_DIMENSIONS, ENEMY_DIMENSIONS, false);
+			i*ENEMY_DIMENSIONS, 50, ENEMY_DIMENSIONS, ENEMY_DIMENSIONS, false);
 	}
 	return true;
 }
@@ -87,5 +89,13 @@ bool ModuleEntity::CleanUp()
 //treats input and updates player and enemies
 update_status ModuleEntity::Update()
 {
+	if (App->input->keyboardState.Left == KEY_DOWN)
+	{
+		gameEntities[0]->entityRect->x -= PLAYER_SPEED;
+	}
+	if (App->input->keyboardState.Right == KEY_DOWN)
+	{
+		gameEntities[0]->entityRect->x += PLAYER_SPEED;
+	}
 	return UPDATE_CONTINUE;
 }
