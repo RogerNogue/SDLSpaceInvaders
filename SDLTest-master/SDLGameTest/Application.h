@@ -8,7 +8,7 @@
 //fwd declarations of modules
 class ModuleRender;
 class ModuleInput;
-
+class ModulePlayer;
 
 class Application final
 {
@@ -26,6 +26,7 @@ public://methods
 public://variables
 	ModuleInput* input = nullptr;
 	ModuleRender* renderer = nullptr;
+	ModulePlayer* player = nullptr;
 
 private://methods
 

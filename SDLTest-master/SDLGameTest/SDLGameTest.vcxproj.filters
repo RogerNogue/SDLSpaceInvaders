@@ -16,6 +16,9 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{d80c2f45-5be1-40e4-af2f-5d4fea444a0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameModules">
+      <UniqueIdentifier>{94bb76f9-3633-4bee-8744-f52913dfeb5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -29,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="ModuleRender.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePlayer.cpp">
+      <Filter>GameModules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="ModuleRender.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePlayer.h">
+      <Filter>GameModules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

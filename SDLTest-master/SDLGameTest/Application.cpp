@@ -12,6 +12,7 @@
 //modules
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
 
 //other includes
 #include <iostream>
@@ -20,6 +21,13 @@ Application::Application()
 {
 	renderer = new ModuleRender();
 	appModules.push_back(renderer);
+
+	input = new ModuleInput();
+	appModules.push_back(input);
+
+	player = new ModulePlayer();
+	appModules.push_back(player);
+
 }
 
 Application::~Application()
