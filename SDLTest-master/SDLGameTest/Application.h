@@ -24,7 +24,7 @@ public://methods
 	bool CleanUp();				//App cleanup
 
 public://variables
-	//ModuleInput* input = nullptr;
+	ModuleInput* input = nullptr;
 	ModuleRender* renderer = nullptr;
 
 private://methods
@@ -35,6 +35,9 @@ private://variables
 	
 
 };
+
+//should be the only singleton
+extern Application* App;
 
 
 #endif // !_APPLICATION

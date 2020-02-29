@@ -39,21 +39,6 @@ bool Application::Init()
 
 update_status Application::Update()
 {
-	SDL_Event e;
-	SDL_PollEvent(&e);
-	switch (e.type) {
-	case SDL_QUIT:
-		return UPDATE_STOP;
-		break;
-	case SDL_MOUSEBUTTONDOWN:
-		break;
-	case SDL_KEYDOWN:
-		break;
-	case SDL_USEREVENT:
-		break;
-	default:
-		break;
-	}
 
 	//update all the modules
 	update_status modUpdateStatus;
@@ -84,7 +69,6 @@ update_status Application::Update()
 			return modUpdateStatus;
 		}
 	}
-
 }
 
 bool Application::CleanUp()
