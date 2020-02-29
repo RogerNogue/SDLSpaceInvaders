@@ -13,8 +13,12 @@ enum update_status
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 512
 #define NUM_ENEMIES 20
-#define PLAYER_DIMENSIONS 20
-#define ENEMY_DIMENSIONS 20
+#define PLAYER_DIMENSIONS 50
+#define ENEMY_DIMENSIONS 40
+
+#define ENEMIES_PER_ROW 10
+
+#define PLAYER_SPEED 2
 
 
 
