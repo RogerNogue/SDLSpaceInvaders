@@ -20,6 +20,27 @@ ModuleRender::~ModuleRender()
 
 }
 
+//for cache safety reasons, lets not inline this funcation
+bool ModuleRender::AddTexture(const char* file)
+{
+	//first we make a surface
+	//local pointer to surface
+	//SDL_Surface* tempSurface = IMG_Load(file);
+	SDL_Surface* tempSurface = IMG_Load(file);
+
+	//then we make a texture
+	//all textures get cleaned at CleanUp Function
+	SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(
+		renderer, tempSurface);
+	if (tempTexture != nullptr)
+	{
+		vecTextures.push_back(tempTexture);
+		return true;
+	}
+	
+	else return false;
+}
+
 bool ModuleRender::Init()
 {
 	//SDL inits
@@ -30,7 +51,7 @@ bool ModuleRender::Init()
 	}
 
 	window = SDL_CreateWindow(
-		"Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+		"Space Invaders Roger!", 100, 100, 512, 512, SDL_WINDOW_SHOWN);
 	if (window == nullptr)
 	{
 		//std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
@@ -47,22 +68,32 @@ bool ModuleRender::Init()
 		SDL_Quit();
 		return false;
 	}
-
-	space_ship_surface = IMG_Load(
-		"Assets/Player/spaceship.png");
-	if (!space_ship_surface)
+	
+	if (!AddTexture("Assets/Background/background.jpg"))
 	{
-		//std::cout << "IMG_Load Error: " << SDL_GetError() << std::endl;
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}
+	
+	if (!AddTexture("Assets/Player/spaceship.png"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
-	texture = SDL_CreateTextureFromSurface(
-		renderer, space_ship_surface);
-	if (!texture)
+	
+
+	if (!AddTexture("Assets/Aestroids/aestroid_brown.png"))
 	{
-		//std::cout << "IMG_LoadTexture Error: " << SDL_GetError() << std::endl;
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
+	/*
+	if (!AddTexture("Assets/Background/background.jpg"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}*/
 	return true;
 }
 
@@ -74,16 +105,32 @@ update_status ModuleRender::PostUpdate()
 	texture_rect.w = 64;  // the width of the texture
 	texture_rect.h = 64;  // the height of the texture
 
+	SDL_Rect texture_rect2;
+	texture_rect2.x = 0;   // the x coordinate
+	texture_rect2.y = 0;   // the y coordinate
+	texture_rect2.w = 512;  // the width of the texture
+	texture_rect2.h = 512;  // the height of the texture
+
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, texture, nullptr, &texture_rect);
+	SDL_RenderCopy(renderer, vecTextures[0], nullptr, &texture_rect2);
+	SDL_RenderCopy(renderer, vecTextures[1], nullptr, &texture_rect);
+	/*for (auto texture : vecTextures)
+	{
+		SDL_RenderCopy(renderer, texture, nullptr, &texture_rect2);
+	}*/
+	//SDL_RenderCopy(renderer, texture, nullptr, &texture_rect);
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleRender::CleanUp()
 {
-	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(space_ship_surface);
+	//clean the textures
+	for (auto texture : vecTextures)
+	{
+		SDL_DestroyTexture(texture);
+	}
+	vecTextures.clear();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

@@ -1,6 +1,7 @@
 #ifndef _MODULERENDER_
 #define _MODULERENDER_
 #include "Module.h"
+#include <vector>
 
 //fwd declarations
 class SDL_Renderer;
@@ -11,7 +12,7 @@ class SDL_Window;
 class ModuleRender final:
 	public Module
 {
-public:
+public://methods
 	ModuleRender();
 	~ModuleRender();
 
@@ -21,10 +22,13 @@ public:
 
 	bool CleanUp() override;
 
+private://methods
+	bool AddTexture(const char* file);
+
 private://variables
+	//TODO(Roger):once the game is done, set vector size to amount of sprites
+	std::vector<SDL_Texture*> vecTextures;
 	SDL_Renderer* renderer = nullptr;
-	SDL_Texture* texture = nullptr;
-	SDL_Surface* space_ship_surface = nullptr;
 	SDL_Window* window = nullptr;
 };
 
