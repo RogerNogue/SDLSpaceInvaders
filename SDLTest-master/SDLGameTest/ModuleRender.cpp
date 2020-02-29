@@ -1,4 +1,6 @@
 #include "ModuleRender.h"
+#include "Application.h"
+#include "ModuleEntity.h"
 
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -81,44 +83,41 @@ bool ModuleRender::Init()
 		return false;
 	}
 
-	
-
-	if (!AddTexture("Assets/Aestroids/aestroid_brown.png"))
+	if (!AddTexture("Assets/Enemy/spaceship_enemy_red.png"))
 	{
 		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
-	/*
-	if (!AddTexture("Assets/Background/background.jpg"))
-	{
-		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
-		return false;
-	}*/
+
+	//initialize background rect, its deleted in the cleanup
+	backgroundRect = new SDL_Rect;
+	backgroundRect->x = 0;
+	backgroundRect->y = 0;
+	backgroundRect->w = SCREEN_WIDTH;
+	backgroundRect->h = SCREEN_HEIGHT;
 	return true;
 }
 
 update_status ModuleRender::PostUpdate()
 {
-	SDL_Rect texture_rect;
-	texture_rect.x = 0;   // the x coordinate
-	texture_rect.y = 0;   // the y coordinate
-	texture_rect.w = 64;  // the width of the texture
-	texture_rect.h = 64;  // the height of the texture
-
-	SDL_Rect texture_rect2;
-	texture_rect2.x = 0;   // the x coordinate
-	texture_rect2.y = 0;   // the y coordinate
-	texture_rect2.w = 512;  // the width of the texture
-	texture_rect2.h = 512;  // the height of the texture
-
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, vecTextures[0], nullptr, &texture_rect2);
-	SDL_RenderCopy(renderer, vecTextures[1], nullptr, &texture_rect);
-	/*for (auto texture : vecTextures)
+
+	//render background
+	SDL_RenderCopy(renderer, vecTextures[BACKGROUND], nullptr, backgroundRect);
+
+	//iterates over all the entites and draws them
+	//since first element is player, we old school iterate over it
+	//render player
+	SDL_RenderCopy(	renderer, vecTextures[PLAYERSHIP], nullptr, 
+					App->entity->gameEntities[0]->entityRect);
+
+	//render enemies
+	for (int i = 1; i < NUM_ENEMIES + 1; ++i)
 	{
-		SDL_RenderCopy(renderer, texture, nullptr, &texture_rect2);
-	}*/
-	//SDL_RenderCopy(renderer, texture, nullptr, &texture_rect);
+		SDL_RenderCopy(renderer, vecTextures[ENEMYSHIP], nullptr, 
+			App->entity->gameEntities[i]->entityRect);
+	}
+	
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }
@@ -131,6 +130,7 @@ bool ModuleRender::CleanUp()
 		SDL_DestroyTexture(texture);
 	}
 	vecTextures.clear();
+	delete backgroundRect;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

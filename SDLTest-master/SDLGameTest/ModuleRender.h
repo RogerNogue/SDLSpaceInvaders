@@ -8,6 +8,14 @@ class SDL_Renderer;
 class SDL_Texture;
 class SDL_Surface;
 class SDL_Window;
+class SDL_Rect;
+
+enum TextureMap
+{
+	BACKGROUND = 0,
+	PLAYERSHIP,
+	ENEMYSHIP
+};
 
 class ModuleRender final:
 	public Module
@@ -30,6 +38,7 @@ private://variables
 	std::vector<SDL_Texture*> vecTextures;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Window* window = nullptr;
+	SDL_Rect* backgroundRect = nullptr;
 };
 
 #endif 
