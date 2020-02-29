@@ -22,7 +22,7 @@ enum main_states
 	MAIN_EXIT
 };
 
-Application* GameApp = nullptr;
+Application* App = nullptr;
 
 int main(int, char **) 
 {
@@ -34,13 +34,13 @@ int main(int, char **)
 			case MAIN_CREATION:
 			{
 				//destructor not ever necessary since variable lasts the whole execution
-				GameApp = new Application();
+				App = new Application();
 				gameState = MAIN_START;
 				break;
 			}
 			case MAIN_START:
 			{
-				if (!GameApp->Init())
+				if (!App->Init())
 				{
 					std::cout << "Application init error" << std::endl;
 					gameState = MAIN_EXIT;
@@ -54,7 +54,7 @@ int main(int, char **)
 			case MAIN_UPDATE:
 			{
 				update_status updateStatus;
-				updateStatus = GameApp->Update();
+				updateStatus = App->Update();
 				if (updateStatus == UPDATE_ERROR)
 				{
 					std::cout << "Application init error" << std::endl;
@@ -70,7 +70,7 @@ int main(int, char **)
 			case MAIN_FINISH:
 			{
 				std::cout << "Application CleanUp" << std::endl;
-				if (!GameApp->CleanUp())
+				if (!App->CleanUp())
 				{
 					std::cout << "Application Cleanup had errors" << std::endl;
 				}
