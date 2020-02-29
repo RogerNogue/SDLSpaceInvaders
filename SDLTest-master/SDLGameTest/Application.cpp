@@ -1,4 +1,5 @@
 #include "Application.h"
+
 //SDL includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <SDL.h>
@@ -8,12 +9,17 @@
 #include <SDL2_image/SDL_image.h>
 #endif
 
+//modules
+#include "ModuleRender.h"
+#include "ModuleInput.h"
+
 //other includes
 #include <iostream>
 
 Application::Application()
 {
-
+	renderer = new ModuleRender();
+	appModules.push_back(renderer);
 }
 
 Application::~Application()
@@ -23,46 +29,10 @@ Application::~Application()
 
 bool Application::Init()
 {
-	//SDL inits
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	//init all the modules
+	for (auto mod : appModules)
 	{
-		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		return 1;
-	}
-
-	window = SDL_CreateWindow(
-		"Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-	if (window == nullptr)
-	{
-		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-		SDL_Quit();
-		return 1;
-	}
-
-	renderer = SDL_CreateRenderer(
-		window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (renderer == nullptr)
-	{
-		SDL_DestroyWindow(window);
-		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-		SDL_Quit();
-		return 1;
-	}
-
-	space_ship_surface = IMG_Load(
-		"Assets/Player/spaceship.png");
-	if (!space_ship_surface)
-	{
-		std::cout << "IMG_Load Error: " << SDL_GetError() << std::endl;
-		return 0;
-	}
-
-	texture = SDL_CreateTextureFromSurface(
-		renderer, space_ship_surface);
-	if (!texture)
-	{
-		std::cout << "IMG_LoadTexture Error: " << SDL_GetError() << std::endl;
-		return 0;
+		mod->Init();
 	}
 	return true;
 }
@@ -85,23 +55,47 @@ update_status Application::Update()
 		break;
 	}
 
-	SDL_Rect texture_rect;
-	texture_rect.x = 0;   // the x coordinate
-	texture_rect.y = 0;   // the y coordinate
-	texture_rect.w = 64;  // the width of the texture
-	texture_rect.h = 64;  // the height of the texture
+	//update all the modules
+	update_status modUpdateStatus;
+	//PreUpdates
+	for (auto mod : appModules)
+	{
+		modUpdateStatus = mod->PreUpdate();
+		if (modUpdateStatus != UPDATE_CONTINUE)
+		{
+			return modUpdateStatus;
+		}
+	}
+	//Updates
+	for (auto mod : appModules)
+	{
+		modUpdateStatus = mod->Update();
+		if (modUpdateStatus != UPDATE_CONTINUE)
+		{
+			return modUpdateStatus;
+		}
+	}
+	//PostUpdates
+	for (auto mod : appModules)
+	{
+		modUpdateStatus = mod->PostUpdate();
+		if (modUpdateStatus != UPDATE_CONTINUE)
+		{
+			return modUpdateStatus;
+		}
+	}
 
-	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, texture, nullptr, &texture_rect);
-	SDL_RenderPresent(renderer);
 }
 
 bool Application::CleanUp()
 {
-	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(space_ship_surface);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+	//Cleanup of all the modules
+	for (auto mod : appModules)
+	{
+		if (!mod->CleanUp())
+		{
+			return false;
+		}
+	}
 	return true;
 }

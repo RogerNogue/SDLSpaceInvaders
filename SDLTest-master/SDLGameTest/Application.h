@@ -9,11 +9,6 @@
 class ModuleRender;
 class ModuleInput;
 
-class SDL_Renderer;
-class SDL_Texture;
-class SDL_Surface;
-class SDL_Window;
-
 
 class Application final
 {
@@ -29,17 +24,15 @@ public://methods
 	bool CleanUp();				//App cleanup
 
 public://variables
-
+	//ModuleInput* input = nullptr;
+	ModuleRender* renderer = nullptr;
 
 private://methods
 
 private://variables
-	//std::vector<Module*> appModules;	//array of app modules
+	std::vector<Module*> appModules;	//array of app modules
 
-	SDL_Renderer* renderer = nullptr;
-	SDL_Texture* texture = nullptr;
-	SDL_Surface* space_ship_surface = nullptr;
-	SDL_Window* window = nullptr;
+	
 
 };
 

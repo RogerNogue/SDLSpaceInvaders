@@ -2,6 +2,7 @@
 #define _MODULE_
 
 #include "Globals.h"
+#include "Module.h"
 
 /*
 Base class from where all the game modules will be done
@@ -9,9 +10,21 @@ Base class from where all the game modules will be done
 
 class Module
 {
-	Module();
+public:
+	Module() 
+	{
 
-	virtual ~Module();
+	}
+
+	virtual ~Module()
+	{
+
+	}
+
+	virtual bool Init()
+	{
+		return true;
+	}
 
 	virtual update_status PreUpdate()
 	{
