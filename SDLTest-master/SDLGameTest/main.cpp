@@ -1,3 +1,10 @@
+
+
+#include <iostream>
+#include "Application.h"
+#include "Globals.h"
+
+//SDL inclusion for main re definition error fixing
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <SDL.h>
 #include <SDL_image.h>
@@ -6,77 +13,72 @@
 #include <SDL2_image/SDL_image.h>
 #endif
 
-#include <iostream>
+enum main_states
+{
+	MAIN_CREATION,
+	MAIN_START,
+	MAIN_UPDATE,
+	MAIN_FINISH,
+	MAIN_EXIT
+};
 
-int main(int, char **) {
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-    std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-    return 1;
-  }
+Application* GameApp = nullptr;
 
-  SDL_Window *win =
-      SDL_CreateWindow("Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-  if (win == nullptr) {
-    std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    return 1;
-  }
-
-  SDL_Renderer *renderer = SDL_CreateRenderer(
-      win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-  if (renderer == nullptr) {
-    SDL_DestroyWindow(win);
-    std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    return 1;
-  }
-
-  SDL_Surface *space_ship_surface = IMG_Load("Assets/Player/spaceship.png");
-  if (!space_ship_surface) {
-    std::cout << "IMG_Load Error: " << SDL_GetError() << std::endl;
-    return 0;
-  }
-
-  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, space_ship_surface);
-  if (!texture) {
-    std::cout << "IMG_LoadTexture Error: " << SDL_GetError() << std::endl;
-    return 0;
-  }
-
-  SDL_Event e;
-  bool running = true;
-  while (running) {
-    SDL_PollEvent(&e);
-    switch (e.type) {
-      case SDL_QUIT:
-        running = false;
-        break;
-      case SDL_MOUSEBUTTONDOWN:
-        break;
-      case SDL_KEYDOWN:
-        break;
-      case SDL_USEREVENT:
-        break;
-      default:
-        break;
-    }
-
-    SDL_Rect texture_rect;
-    texture_rect.x = 0;   // the x coordinate
-    texture_rect.y = 0;   // the y coordinate
-    texture_rect.w = 64;  // the width of the texture
-    texture_rect.h = 64;  // the height of the texture
-
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, nullptr, &texture_rect);
-    SDL_RenderPresent(renderer);
-  }
-
-  SDL_DestroyTexture(texture);
-  SDL_FreeSurface(space_ship_surface);
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(win);
-  SDL_Quit();
-
-  return 0;
+int main(int, char **) 
+{
+	main_states gameState = MAIN_CREATION;
+	while (gameState != MAIN_EXIT)
+	{
+		switch (gameState)
+		{
+			case MAIN_CREATION:
+			{
+				//destructor not ever necessary since variable lasts the whole execution
+				GameApp = new Application();
+				gameState = MAIN_START;
+				break;
+			}
+			case MAIN_START:
+			{
+				if (!GameApp->Init())
+				{
+					std::cout << "Application init error" << std::endl;
+					gameState = MAIN_EXIT;
+				}
+				else
+				{
+					gameState = MAIN_UPDATE;
+				}
+				break;
+			}
+			case MAIN_UPDATE:
+			{
+				update_status updateStatus;
+				updateStatus = GameApp->Update();
+				if (updateStatus == UPDATE_ERROR)
+				{
+					std::cout << "Application init error" << std::endl;
+					gameState = MAIN_EXIT;
+				}
+				else if (updateStatus == UPDATE_STOP)
+				{
+					std::cout << "Application stopped correctly" << std::endl;
+					gameState = MAIN_FINISH;
+				}
+				break;
+			}
+			case MAIN_FINISH:
+			{
+				std::cout << "Application CleanUp" << std::endl;
+				if (!GameApp->CleanUp())
+				{
+					std::cout << "Application Cleanup had errors" << std::endl;
+				}
+				gameState = MAIN_EXIT;
+				break;
+			}
+		}
+	}
+	return 0;
+  
 }
