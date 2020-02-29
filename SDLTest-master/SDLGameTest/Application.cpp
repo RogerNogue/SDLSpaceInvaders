@@ -12,7 +12,7 @@
 //modules
 #include "ModuleRender.h"
 #include "ModuleInput.h"
-#include "ModulePlayer.h"
+#include "ModuleEntity.h"
 
 //other includes
 #include <iostream>
@@ -25,8 +25,8 @@ Application::Application()
 	input = new ModuleInput();
 	appModules.push_back(input);
 
-	player = new ModulePlayer();
-	appModules.push_back(player);
+	entity = new ModuleEntity();
+	appModules.push_back(entity);
 
 }
 

@@ -51,7 +51,7 @@ bool ModuleRender::Init()
 	}
 
 	window = SDL_CreateWindow(
-		"Space Invaders Roger!", 100, 100, 512, 512, SDL_WINDOW_SHOWN);
+		"Space Invaders Roger!", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == nullptr)
 	{
 		//std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;

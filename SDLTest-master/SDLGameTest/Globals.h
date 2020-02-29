@@ -10,6 +10,12 @@ enum update_status
 	UPDATE_STOP,
 	UPDATE_ERROR
 };
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 512
+#define NUM_ENEMIES 20
+#define PLAYER_DIMENSIONS 20
+#define ENEMY_DIMENSIONS 20
+
 
 
 
