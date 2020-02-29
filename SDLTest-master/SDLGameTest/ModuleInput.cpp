@@ -40,7 +40,7 @@ inline void SetKeyValue(int key, KeyState value, keyboard* keyboardState)
 	}
 }
 
-update_status ModuleInput::Update()
+update_status ModuleInput::PreUpdate()
 {
 	SDL_Event e;
 	SDL_PollEvent(&e);

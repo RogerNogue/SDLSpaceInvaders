@@ -26,7 +26,7 @@ public:
 
 	bool Init() override;
 
-	update_status Update() override;
+	update_status PreUpdate() override;
 
 	bool CleanUp() override;
 
