@@ -17,7 +17,7 @@
 Entity::Entity(bool isPlayer) :
 	isPlayer(isPlayer)
 {
-	if (IsPlayer)
+	if (isPlayer)
 	{
 		health = PLAYER_HEALTHPOINTS;
 	}
@@ -32,7 +32,7 @@ Entity::Entity(bool isPlayer) :
 Entity::Entity(int x, int y, int w, int h, bool isPlayer) :
 	isPlayer(isPlayer)
 {
-	if (IsPlayer)
+	if (isPlayer)
 	{
 		health = PLAYER_HEALTHPOINTS;
 	}
@@ -144,7 +144,7 @@ bool ModuleEntity::CleanUp()
 
 void ModuleEntity::MoveEnemies(int x, int y)
 {
-	for (int i = 1; i < NUM_ENEMIES + 1; ++i)
+	for (int i = 1; i < gameEntities.size(); ++i)
 	{
 		gameEntities[i]->entityRect->x += x;
 		gameEntities[i]->entityRect->y += y;
@@ -167,6 +167,7 @@ update_status ModuleEntity::Update()
 	}
 
 	//enemies movement update
+	//TODO(Roger): end the game if an enemy gets to the end of the screen
 	switch (enemState)
 	{
 	case MOVING_RIGHT:

@@ -7,6 +7,7 @@
 
 //fwd declarations
 class Projectile;
+class SDL_Rect;
 
 //class that will handle the projectiles and their collisions/screen presence
 class ModuleCollisions final:
@@ -22,6 +23,7 @@ public:
 	update_status Update() override;
 
 	bool CleanUp() override;
+
 
 public:
 	//since elements will be deleted frequently, list is better than vector

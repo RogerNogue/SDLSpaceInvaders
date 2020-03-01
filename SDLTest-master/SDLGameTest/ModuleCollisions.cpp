@@ -50,6 +50,74 @@ update_status ModuleCollisions::Update()
 	}
 	++timeLastProjectile;
 
+	//checking all projectiles
+	//since we want to remove elems, lets use old school loop
+	std::list<Projectile*>::iterator it = listProjectiles.begin();
+	
+	bool projectileDeleted = false;
+	while (it != listProjectiles.end())
+	{
+		projectileDeleted = false;
+		//delete if it got outside of the screen
+		if ((*it)->projectileRect->y < 0)
+		{
+			it = listProjectiles.erase(it);
+			projectileDeleted = true;
+		}
+		else
+		{
+			auto entityVector = &App->entity->gameEntities;
+			//lets check collisions
+			//first we check player and proj not being from the player
+			SDL_Rect collisionRect;
+			if (!(*it)->IsFromPlayer() &&
+				SDL_IntersectRect(
+				(*it)->projectileRect, (*entityVector)[0]->entityRect, &collisionRect)
+				== SDL_TRUE)
+			{
+				//get rid of projectile
+				it = listProjectiles.erase(it);
+				projectileDeleted = true;
+				//lower health
+				--(*entityVector)[0]->health;
+				if ((*entityVector)[0]->health <= 0)
+				{
+					//TODO(Roger):endGame
+				}
+
+			}
+			//if not, check enemies
+			else 
+			{
+				for (int i = 1; i < (*entityVector).size() && !projectileDeleted; ++i)
+				{
+					//if collided, we delete it and lower health of impacted
+					if (SDL_IntersectRect(
+						(*it)->projectileRect, (*entityVector)[i]->entityRect, &collisionRect)
+						== SDL_TRUE)
+					{
+						//get rid of projectile
+						it = listProjectiles.erase(it);
+						projectileDeleted = true;
+						//lower health
+						--(*entityVector)[i]->health;
+						if ((*entityVector)[i]->health <= 0)
+						{
+							//erase the i-th element. Destructor is called
+							(*entityVector).erase((*entityVector).begin() + (i));
+						}
+
+					}
+					
+				}
+			}
+		}
+		//if nothing erased, advance iterator
+		if(!projectileDeleted)
+		{
+			++it;
+		}
+	}
 	return UPDATE_CONTINUE;
 }
 

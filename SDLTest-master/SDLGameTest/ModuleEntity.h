@@ -32,7 +32,7 @@ public:
 
 public:
 	SDL_Rect* entityRect = nullptr;
-	unsigned health = ENEMY_HEALTHPOINTS;
+	int health = ENEMY_HEALTHPOINTS;
 
 private:
 	bool isPlayer;
@@ -50,7 +50,7 @@ public:
 
 	inline void SetRect(int x, int y, int w, int h);
 
-	inline bool IsPlayer() const { return fromPlayer; }
+	inline bool IsFromPlayer() const { return fromPlayer; }
 
 public:
 	SDL_Rect* projectileRect = nullptr;

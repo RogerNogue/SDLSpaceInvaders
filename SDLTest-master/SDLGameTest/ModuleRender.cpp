@@ -28,7 +28,7 @@ bool ModuleRender::AddTexture(const char* file)
 {
 	//first we make a surface
 	//local pointer to surface
-	//SDL_Surface* tempSurface = IMG_Load(file);
+	//TODO(Roger): check if tempSurface has to be released
 	SDL_Surface* tempSurface = IMG_Load(file);
 
 	//then we make a texture
@@ -131,7 +131,7 @@ update_status ModuleRender::PostUpdate()
 					App->entity->gameEntities[0]->entityRect);
 
 	//render enemies
-	for (int i = 1; i < NUM_ENEMIES + 1; ++i)
+	for (int i = 1; i < App->entity->gameEntities.size(); ++i)
 	{
 		SDL_RenderCopy(renderer, vecTextures[ENEMYSHIP], nullptr, 
 			App->entity->gameEntities[i]->entityRect);
