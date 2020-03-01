@@ -1,6 +1,7 @@
 #include "ModuleRender.h"
 #include "Application.h"
 #include "ModuleEntity.h"
+#include "ModuleCollisions.h"
 
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -89,6 +90,18 @@ bool ModuleRender::Init()
 		return false;
 	}
 
+	if (!AddTexture("Assets/Player/bullet.png"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
+	if (!AddTexture("Assets/Enemy/bullet_enemy.png"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
 	//initialize background rect, its deleted in the cleanup
 	backgroundRect = new SDL_Rect;
 	backgroundRect->x = 0;
@@ -105,8 +118,14 @@ update_status ModuleRender::PostUpdate()
 	//render background
 	SDL_RenderCopy(renderer, vecTextures[BACKGROUND], nullptr, backgroundRect);
 
-	//iterates over all the entites and draws them
-	//since first element is player, we old school iterate over it
+	//render projectiles
+	for (auto proj : App->collisions->listProjectiles)
+	{
+		SDL_RenderCopy(renderer, vecTextures[PLAYER_PROJECTILE], nullptr,
+			proj->projectileRect);
+	}
+
+	//render entities
 	//render player
 	SDL_RenderCopy(	renderer, vecTextures[PLAYERSHIP], nullptr, 
 					App->entity->gameEntities[0]->entityRect);

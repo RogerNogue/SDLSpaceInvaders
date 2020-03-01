@@ -30,7 +30,12 @@ enum update_status
 #define ENEMY_DOWN_STEPS 5
 #define ENEMY_SPEED 1
 
-#define PLAYER_SPEED 2
+#define PLAYER_SPEED 5
+//min game loops between player projectiles
+#define PLAYER_FIRE_TIME 40
+
+#define PROJECTILE_DIMENSIONS 25
+#define PROJECTILE_SPEED 5
 
 
 

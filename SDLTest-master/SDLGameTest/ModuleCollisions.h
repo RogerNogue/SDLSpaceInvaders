@@ -8,6 +8,7 @@
 //fwd declarations
 class Projectile;
 
+//class that will handle the projectiles and their collisions/screen presence
 class ModuleCollisions final:
 	public Module
 {
@@ -25,6 +26,8 @@ public:
 public:
 	//since elements will be deleted frequently, list is better than vector
 	std::list<Projectile*> listProjectiles;
+
+	unsigned timeLastProjectile = PLAYER_FIRE_TIME;
 };
 
 #endif // !_MODULECOLLISIONS_

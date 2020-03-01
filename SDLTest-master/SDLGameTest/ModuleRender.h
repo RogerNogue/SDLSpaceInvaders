@@ -14,7 +14,9 @@ enum TextureMap
 {
 	BACKGROUND = 0,
 	PLAYERSHIP,
-	ENEMYSHIP
+	ENEMYSHIP,
+	PLAYER_PROJECTILE,
+	ENEMYP_ROJECTILE
 };
 
 class ModuleRender final:
