@@ -59,13 +59,13 @@ private:
 	bool fromPlayer;
 };
 
-class ModuleEntity final:
+class ModuleGame final:
 	public Module
 {
 public:
-	ModuleEntity();
+	ModuleGame();
 
-	~ModuleEntity();
+	~ModuleGame();
 
 	bool Init() override;
 

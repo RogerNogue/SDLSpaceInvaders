@@ -9,7 +9,7 @@
 class ModuleRender;
 class ModuleInput;
 class ModuleCollisions;
-class ModuleEntity;
+class ModuleGame;
 
 class Application final
 {
@@ -28,7 +28,7 @@ public://variables
 	ModuleInput* input = nullptr;
 	ModuleRender* renderer = nullptr;
 	ModuleCollisions* collisions = nullptr;
-	ModuleEntity* entity = nullptr;
+	ModuleGame* entity = nullptr;
 
 private://methods
 

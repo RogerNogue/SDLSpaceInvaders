@@ -1,4 +1,4 @@
-#include "ModuleEntity.h"
+#include "ModuleGame.h"
 #include "Application.h"
 
 #include "ModuleInput.h"
@@ -88,17 +88,17 @@ inline void Projectile::SetRect(int x, int y, int w, int h)
 /////////////////////Module entity/////////////////////
 
 
-ModuleEntity::ModuleEntity()
+ModuleGame::ModuleGame()
 {
 
 }
 
-ModuleEntity::~ModuleEntity()
+ModuleGame::~ModuleGame()
 {
 
 }
 
-bool ModuleEntity::Init()
+bool ModuleGame::Init()
 {
 	//creates and initializes all the entities
 	//we create the player first
@@ -139,7 +139,7 @@ bool ModuleEntity::Init()
 	return true;
 }
 
-bool ModuleEntity::CleanUp()
+bool ModuleGame::CleanUp()
 {
 	//frees entities
 	for (auto entity : gameEntities)
@@ -154,7 +154,7 @@ bool ModuleEntity::CleanUp()
 	return true;
 }
 
-void ModuleEntity::MoveEnemies(int x, int y)
+void ModuleGame::MoveEnemies(int x, int y)
 {
 	for (int i = 1; i < gameEntities.size(); ++i)
 	{
@@ -164,7 +164,7 @@ void ModuleEntity::MoveEnemies(int x, int y)
 }
 
 //treats input and updates player and enemies
-update_status ModuleEntity::Update()
+update_status ModuleGame::Update()
 {
 	//player movement update
 	if (App->input->keyboardState.Left == KEY_DOWN && 
@@ -234,7 +234,7 @@ update_status ModuleEntity::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleEntity::EnemyKilled(Entity* deadEnemy)
+void ModuleGame::EnemyKilled(Entity* deadEnemy)
 {
 	//if no more enemies alive, exit
 	if (gameEntities.size() == 2)

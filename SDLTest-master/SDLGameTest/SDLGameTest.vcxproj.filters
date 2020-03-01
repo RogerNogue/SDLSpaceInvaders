@@ -33,11 +33,11 @@
     <ClCompile Include="ModuleRender.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleEntity.cpp">
-      <Filter>GameModules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleCollisions.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleGame.cpp">
+      <Filter>GameModules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,11 +56,11 @@
     <ClInclude Include="ModuleRender.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleEntity.h">
-      <Filter>GameModules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleCollisions.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleGame.h">
+      <Filter>GameModules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

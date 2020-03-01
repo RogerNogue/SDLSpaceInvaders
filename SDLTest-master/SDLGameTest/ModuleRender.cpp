@@ -1,6 +1,6 @@
 #include "ModuleRender.h"
 #include "Application.h"
-#include "ModuleEntity.h"
+#include "ModuleGame.h"
 #include "ModuleCollisions.h"
 
 //sdl includes

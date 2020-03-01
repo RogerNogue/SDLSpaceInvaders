@@ -13,7 +13,7 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleCollisions.h"
-#include "ModuleEntity.h"
+#include "ModuleGame.h"
 
 //other includes
 #include <iostream>
@@ -30,7 +30,7 @@ Application::Application()
 	collisions = new ModuleCollisions();
 	appModules.push_back(collisions);
 
-	entity = new ModuleEntity();
+	entity = new ModuleGame();
 	appModules.push_back(entity);
 
 }
