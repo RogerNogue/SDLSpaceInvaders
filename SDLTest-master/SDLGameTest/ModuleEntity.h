@@ -32,6 +32,7 @@ public:
 
 public:
 	SDL_Rect* entityRect = nullptr;
+	unsigned health = ENEMY_HEALTHPOINTS;
 
 private:
 	bool isPlayer;

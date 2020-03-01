@@ -17,6 +17,14 @@
 Entity::Entity(bool isPlayer) :
 	isPlayer(isPlayer)
 {
+	if (IsPlayer)
+	{
+		health = PLAYER_HEALTHPOINTS;
+	}
+	else
+	{
+		health = ENEMY_HEALTHPOINTS;
+	}
 	entityRect = new SDL_Rect();
 	SetRect(0, 0, 0, 0);
 }
@@ -24,6 +32,14 @@ Entity::Entity(bool isPlayer) :
 Entity::Entity(int x, int y, int w, int h, bool isPlayer) :
 	isPlayer(isPlayer)
 {
+	if (IsPlayer)
+	{
+		health = PLAYER_HEALTHPOINTS;
+	}
+	else
+	{
+		health = ENEMY_HEALTHPOINTS;
+	}
 	entityRect = new SDL_Rect();
 	SetRect(x, y, w, h);
 }
