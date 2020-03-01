@@ -89,7 +89,7 @@ update_status ModuleCollisions::Update()
 			//if not, check obstacles and enemies
 			else 
 			{
-				/*//obstacles
+				//obstacles
 				auto obstacleVector = &App->entity->obstacles;
 				for (int i = 0; i < (*obstacleVector).size() && !projectileDeleted; ++i)
 				{
@@ -97,9 +97,18 @@ update_status ModuleCollisions::Update()
 						(*it)->projectileRect, (*obstacleVector)[i]->entityRect, &collisionRect)
 						== SDL_TRUE)
 					{
+						//get rid of projectile
+						it = listProjectiles.erase(it);
+						projectileDeleted = true;
+						//lower health
+						--(*obstacleVector)[i]->health;
+						if ((*obstacleVector)[i]->health <= 0)
+						{
+							(*obstacleVector).erase((*obstacleVector).begin() + i);
 
+						}
 					}
-				}*/
+				}
 				//enemies
 				for (int i = 1; i < (*entityVector).size() && !projectileDeleted; ++i)
 				{
