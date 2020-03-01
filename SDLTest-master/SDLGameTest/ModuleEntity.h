@@ -37,6 +37,27 @@ private:
 	bool isPlayer;
 };
 
+//decided to have both enemies and player in the same class since adding an extra
+//hierarchy adds more complexity than necessary
+class Projectile final
+{
+public:
+	Projectile(bool fromPlayer);
+	Projectile(int x, int y, int w, int h, bool fromPlayer);
+
+	~Projectile();
+
+	inline void SetRect(int x, int y, int w, int h);
+
+	inline bool IsPlayer() const { return fromPlayer; }
+
+public:
+	SDL_Rect* projectileRect = nullptr;
+
+private:
+	bool fromPlayer;
+};
+
 class ModuleEntity final:
 	public Module
 {

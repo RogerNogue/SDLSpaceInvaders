@@ -14,7 +14,7 @@
 
 
 /////////////////////Class entity/////////////////////
-Entity::Entity(bool isPlayer):
+Entity::Entity(bool isPlayer) :
 	isPlayer(isPlayer)
 {
 	entityRect = new SDL_Rect();
@@ -39,6 +39,34 @@ inline void Entity::SetRect(int x, int y, int w, int h)
 	entityRect->y = y;
 	entityRect->w = w;
 	entityRect->h = h;
+}
+
+/////////////////////Class projectile/////////////////////
+Projectile::Projectile(bool fromPlayer) :
+	fromPlayer(fromPlayer)
+{
+	projectileRect = new SDL_Rect();
+	SetRect(0, 0, 0, 0);
+}
+
+Projectile::Projectile(int x, int y, int w, int h, bool fromPlayer) :
+	fromPlayer(fromPlayer)
+{
+	projectileRect = new SDL_Rect();
+	SetRect(x, y, w, h);
+}
+
+Projectile::~Projectile()
+{
+	delete projectileRect;
+}
+
+inline void Projectile::SetRect(int x, int y, int w, int h)
+{
+	projectileRect->x = x;
+	projectileRect->y = y;
+	projectileRect->w = w;
+	projectileRect->h = h;
 }
 
 /////////////////////Module entity/////////////////////
