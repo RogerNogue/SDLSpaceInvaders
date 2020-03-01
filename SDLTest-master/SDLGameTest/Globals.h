@@ -22,7 +22,7 @@ enum update_status
 //////////enemy definitions//////////
 #define ENEMY_HEALTHPOINTS 2
 #define NUM_ENEMIES 27
-#define ENEMY_DIMENSIONS 40
+#define ENEMY_DIMENSIONS 25
 #define ENEMIES_PER_ROW 9
 #define X_SEPARATION_BETWEEN_ENEMIES 50
 #define Y_SEPARATION_BETWEEN_ENEMIES 50
@@ -34,12 +34,12 @@ enum update_status
 
 //////////player definitions//////////
 #define PLAYER_HEALTHPOINTS 5
-#define PLAYER_DIMENSIONS 50
+#define PLAYER_DIMENSIONS 30
 #define PLAYER_SPEED 5
 //min game loops between player projectiles
 #define PLAYER_FIRE_TIME 40
 
-#define PROJECTILE_DIMENSIONS 25
+#define PROJECTILE_DIMENSIONS 10
 #define PROJECTILE_SPEED 5
 
 //////////obstacle definitions//////////
