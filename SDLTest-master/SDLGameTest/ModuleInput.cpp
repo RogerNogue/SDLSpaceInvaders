@@ -31,22 +31,17 @@ inline void SetKeyValue(int key, KeyState value, Command* keyboardState)
 	case SDLK_UP:
 		keyboardState->Up = value;
 		break;
-	case SDLK_w:
-		keyboardState->Up = value;
-		break;
 
 	case SDLK_LEFT:
-		keyboardState->Left = value;
-		break;
-	case SDLK_a:
 		keyboardState->Left = value;
 		break;
 
 	case SDLK_RIGHT:
 		keyboardState->Right = value;
 		break;
-	case SDLK_d:
-		keyboardState->Right = value;
+
+	case SDLK_SPACE:
+		keyboardState->Fire = value;
 		break;
 	}
 }

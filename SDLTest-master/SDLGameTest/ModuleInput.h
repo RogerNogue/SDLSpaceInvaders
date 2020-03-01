@@ -15,6 +15,7 @@ struct Command
 	KeyState Up;
 	KeyState Left;
 	KeyState Right;
+	KeyState Fire;
 };
 
 class ModuleInput final:
