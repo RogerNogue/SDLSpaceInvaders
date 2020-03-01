@@ -237,7 +237,7 @@ update_status ModuleEntity::Update()
 void ModuleEntity::EnemyKilled(Entity* deadEnemy)
 {
 	//if no more enemies alive, exit
-	if (gameEntities.size() == 0)
+	if (gameEntities.size() == 2)
 	{
 		return;
 	}
