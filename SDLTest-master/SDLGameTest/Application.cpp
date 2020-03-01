@@ -47,6 +47,8 @@ bool Application::Init()
 
 update_status Application::Update()
 {
+	//get start of frame timer
+	unsigned startTime = SDL_GetTicks();
 
 	//update all the modules
 	update_status modUpdateStatus;
@@ -77,6 +79,17 @@ update_status Application::Update()
 			return modUpdateStatus;
 		}
 	}
+
+	//get end of frame timer
+	unsigned endTime = SDL_GetTicks();
+	unsigned timeResult = endTime - startTime;
+
+	//60 fps enforcement
+	if (timeResult < 16)
+	{
+		SDL_Delay(16 - timeResult);
+	}
+
 }
 
 bool Application::CleanUp()
