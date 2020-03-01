@@ -90,6 +90,12 @@ bool ModuleRender::Init()
 		return false;
 	}
 
+	if (!AddTexture("Assets/Enemy/enemy_hurt.png"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
 	if (!AddTexture("Assets/Player/bullet.png"))
 	{
 		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
@@ -133,8 +139,17 @@ update_status ModuleRender::PostUpdate()
 	//render enemies
 	for (int i = 1; i < App->entity->gameEntities.size(); ++i)
 	{
-		SDL_RenderCopy(renderer, vecTextures[ENEMYSHIP], nullptr, 
-			App->entity->gameEntities[i]->entityRect);
+		//check if enemy is healthy or not
+		if (App->entity->gameEntities[i]->health == ENEMY_HEALTHPOINTS)
+		{
+			SDL_RenderCopy(renderer, vecTextures[ENEMYSHIP], nullptr,
+				App->entity->gameEntities[i]->entityRect);
+		}
+		else
+		{
+			SDL_RenderCopy(renderer, vecTextures[ENEMYSHIPHURT], nullptr,
+				App->entity->gameEntities[i]->entityRect);
+		}
 	}
 	
 	SDL_RenderPresent(renderer);
