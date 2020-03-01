@@ -10,6 +10,9 @@ enum update_status
 	UPDATE_STOP,
 	UPDATE_ERROR
 };
+
+#define SAFE_RELEASE(X) if(X != nullptr){delete X; X = nullptr;}
+
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 512
 //margins of 10 units
@@ -39,7 +42,14 @@ enum update_status
 #define PROJECTILE_DIMENSIONS 25
 #define PROJECTILE_SPEED 5
 
-
+//////////obstacle definitions//////////
+#define NUM_OBSTACLES 3
+#define X_POSITION_LEFT_OBSTACLE 50
+#define X_SEPARATION_BETWEEN_OBSTACLES 200
+#define OBSTACLES_Y_POSITION 300
+#define OBSTACLES_X_DIMENSIONS 100
+#define OBSTACLES_Y_DIMENSIONS 100
+#define OBSTACLES_HEALTHPOINTS 2
 
 
 #endif

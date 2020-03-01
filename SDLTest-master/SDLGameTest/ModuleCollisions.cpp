@@ -86,9 +86,21 @@ update_status ModuleCollisions::Update()
 				}
 
 			}
-			//if not, check enemies
+			//if not, check obstacles and enemies
 			else 
 			{
+				/*//obstacles
+				auto obstacleVector = &App->entity->obstacles;
+				for (int i = 0; i < (*obstacleVector).size() && !projectileDeleted; ++i)
+				{
+					if (SDL_IntersectRect(
+						(*it)->projectileRect, (*obstacleVector)[i]->entityRect, &collisionRect)
+						== SDL_TRUE)
+					{
+
+					}
+				}*/
+				//enemies
 				for (int i = 1; i < (*entityVector).size() && !projectileDeleted; ++i)
 				{
 					//if collided, we delete it and lower health of impacted
@@ -127,7 +139,7 @@ bool ModuleCollisions::CleanUp()
 	//clean projectile list
 	for (auto proj : listProjectiles)
 	{
-		delete proj;
+		SAFE_RELEASE(proj);
 	}
 	listProjectiles.clear();
 	return true;

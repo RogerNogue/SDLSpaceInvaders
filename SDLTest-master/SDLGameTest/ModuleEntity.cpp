@@ -46,7 +46,7 @@ Entity::Entity(int x, int y, int w, int h, bool isPlayer) :
 
 Entity::~Entity()
 {
-	delete entityRect;
+	SAFE_RELEASE(entityRect);
 }
 
 inline void Entity::SetRect(int x, int y, int w, int h)
@@ -74,7 +74,7 @@ Projectile::Projectile(int x, int y, int w, int h, bool fromPlayer) :
 
 Projectile::~Projectile()
 {
-	delete projectileRect;
+	SAFE_RELEASE(projectileRect);
 }
 
 inline void Projectile::SetRect(int x, int y, int w, int h)
@@ -126,6 +126,16 @@ bool ModuleEntity::Init()
 	}
 	mostLeftEnemy = gameEntities[1];
 	mostRightEnemy = gameEntities[ENEMIES_PER_ROW];
+
+	//now all obstacles
+	for (int i = 0; i < NUM_OBSTACLES; ++i)
+	{
+		int obstacleX = X_POSITION_LEFT_OBSTACLE + X_SEPARATION_BETWEEN_OBSTACLES*i;
+		obstacles[i] = new Entity(obstacleX, OBSTACLES_Y_POSITION, OBSTACLES_X_DIMENSIONS,
+			OBSTACLES_Y_DIMENSIONS, false);
+		obstacles[i]->health = OBSTACLES_HEALTHPOINTS;
+	}
+
 	return true;
 }
 
@@ -134,11 +144,13 @@ bool ModuleEntity::CleanUp()
 	//frees entities
 	for (auto entity : gameEntities)
 	{
-		if (entity != nullptr)
-		{
-			delete entity;
-		}
+		SAFE_RELEASE(entity);
 	}
+	for (auto obst : obstacles)
+	{
+		SAFE_RELEASE(obst);
+	}
+
 	return true;
 }
 

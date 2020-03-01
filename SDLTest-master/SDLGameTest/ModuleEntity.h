@@ -16,7 +16,7 @@ enum enemiesState
 	MOVING_LEFT
 };
 
-//decided to have both enemies and player in the same class since adding an extra
+//decided to have enemies, player and obstacles in the same class since adding an extra
 //hierarchy adds more complexity than necessary
 class Entity final
 {
@@ -82,6 +82,9 @@ public:
 	//first position is for the player
 	std::vector<Entity*> gameEntities =
 		std::vector<Entity*>(NUM_ENEMIES + 1);
+
+	std::vector<Entity*> obstacles =
+		std::vector<Entity*>(NUM_OBSTACLES);
 
 	//variables that keeps track of the most right and left side enemies
 	Entity* mostRightEnemy = nullptr;

@@ -30,17 +30,23 @@ bool ModuleRender::AddTexture(const char* file)
 	//local pointer to surface
 	//TODO(Roger): check if tempSurface has to be released
 	SDL_Surface* tempSurface = IMG_Load(file);
-
+	if (tempSurface == nullptr)
+	{
+		return false;
+	}
 	//then we make a texture
 	//all textures get cleaned at CleanUp Function
 	SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(
 		renderer, tempSurface);
+	
+	//free surface
+	SDL_FreeSurface(tempSurface);
+
 	if (tempTexture != nullptr)
 	{
 		vecTextures.push_back(tempTexture);
 		return true;
 	}
-	
 	else return false;
 }
 
@@ -108,6 +114,18 @@ bool ModuleRender::Init()
 		return false;
 	}
 
+	if (!AddTexture("Assets/Aestroids/aestroid_dark.png"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
+	if (!AddTexture("Assets/Aestroids/aestroid_gray.png"))
+	{
+		//std::cout << "Load texture Error: " << SDL_GetError() << std::endl;
+		return false;
+	}
+
 	//initialize background rect, its deleted in the cleanup
 	backgroundRect = new SDL_Rect;
 	backgroundRect->x = 0;
@@ -151,6 +169,22 @@ update_status ModuleRender::PostUpdate()
 				App->entity->gameEntities[i]->entityRect);
 		}
 	}
+
+	//render asteroids
+	for (auto obstacles : App->entity->obstacles)
+	{
+		//check its health
+		if (obstacles->health == OBSTACLES_HEALTHPOINTS)
+		{
+			SDL_RenderCopy(renderer, vecTextures[OBSTACLE_HEALTHY], nullptr,
+				obstacles->entityRect);
+		}
+		else
+		{
+			SDL_RenderCopy(renderer, vecTextures[OBSTACLE_HURT], nullptr,
+				obstacles->entityRect);
+		}
+	}
 	
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
@@ -164,7 +198,7 @@ bool ModuleRender::CleanUp()
 		SDL_DestroyTexture(texture);
 	}
 	vecTextures.clear();
-	delete backgroundRect;
+	SAFE_RELEASE(backgroundRect);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
