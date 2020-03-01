@@ -219,8 +219,62 @@ update_status ModuleEntity::Update()
 		}
 		break;
 	}
-
-
 	return UPDATE_CONTINUE;
+}
+
+void ModuleEntity::EnemyKilled(Entity* deadEnemy)
+{
+	//check if we have to re calculate a boundary index
+	if (deadEnemy == mostLeftEnemy)
+	{
+		//check that the first one is not the one we killed
+		if (gameEntities[1] == deadEnemy)
+		{
+			mostLeftEnemy = gameEntities[2];
+		}
+		else
+		{
+			mostLeftEnemy = gameEntities[1];
+		}
+		
+		//old school stuff
+		for(int i = 1; i < gameEntities.size(); ++i)
+		{
+			//skip iteration if its the dead enemy
+			if (gameEntities[i] == deadEnemy)
+			{
+				continue;
+			}
+			if (gameEntities[i]->entityRect->x < mostLeftEnemy->entityRect->x)
+			{
+				mostLeftEnemy = gameEntities[i];
+			}
+		}
+	}
+	else if (deadEnemy == mostRightEnemy)
+	{
+		//check that the first one is not the one we killed
+		if (gameEntities[1] == deadEnemy)
+		{
+			mostRightEnemy = gameEntities[2];
+		}
+		else
+		{
+			mostRightEnemy = gameEntities[1];
+		}
+		//old school stuff
+		for (int i = 1; i < gameEntities.size(); ++i)
+		{
+			//skip iteration if its the dead enemy
+			if (gameEntities[i] == deadEnemy)
+			{
+				continue;
+			}
+			if (gameEntities[i]->entityRect->x > mostRightEnemy->entityRect->x)
+			{
+				mostRightEnemy = gameEntities[i];
+			}
+		}
+	}
 
 }

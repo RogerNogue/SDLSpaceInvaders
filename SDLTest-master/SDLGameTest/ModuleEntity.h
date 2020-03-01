@@ -75,6 +75,9 @@ public:
 
 	update_status Update() override;
 
+	//method that re calculates enemy boundaries when one died
+	void EnemyKilled(Entity* deadEnemy);
+
 public:
 	//first position is for the player
 	std::vector<Entity*> gameEntities =
