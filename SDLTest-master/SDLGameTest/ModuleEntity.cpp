@@ -236,6 +236,11 @@ update_status ModuleEntity::Update()
 
 void ModuleEntity::EnemyKilled(Entity* deadEnemy)
 {
+	//if no more enemies alive, exit
+	if (gameEntities.size() == 0)
+	{
+		return;
+	}
 	//check if we have to re calculate a boundary index
 	if (deadEnemy == mostLeftEnemy)
 	{

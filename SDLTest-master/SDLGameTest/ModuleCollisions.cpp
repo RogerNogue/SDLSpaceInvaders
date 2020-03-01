@@ -124,6 +124,7 @@ update_status ModuleCollisions::Update()
 						--(*entityVector)[i]->health;
 						if ((*entityVector)[i]->health <= 0)
 						{
+							//TODO(Roger): check if we won
 							App->entity->EnemyKilled((*entityVector)[i]);
 							//erase the i-th element. Destructor is called
 							(*entityVector).erase((*entityVector).begin() + (i));
