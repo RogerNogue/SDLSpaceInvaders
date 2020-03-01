@@ -12,6 +12,7 @@
 //modules
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleCollisions.h"
 #include "ModuleEntity.h"
 
 //other includes
@@ -24,6 +25,10 @@ Application::Application()
 
 	input = new ModuleInput();
 	appModules.push_back(input);
+
+	//I like collisions being before entity so that entitiy update comes after collisions
+	collisions = new ModuleCollisions();
+	appModules.push_back(collisions);
 
 	entity = new ModuleEntity();
 	appModules.push_back(entity);

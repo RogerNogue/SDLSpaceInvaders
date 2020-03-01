@@ -8,6 +8,7 @@
 //fwd declarations of modules
 class ModuleRender;
 class ModuleInput;
+class ModuleCollisions;
 class ModuleEntity;
 
 class Application final
@@ -26,6 +27,7 @@ public://methods
 public://variables
 	ModuleInput* input = nullptr;
 	ModuleRender* renderer = nullptr;
+	ModuleCollisions* collisions = nullptr;
 	ModuleEntity* entity = nullptr;
 
 private://methods
