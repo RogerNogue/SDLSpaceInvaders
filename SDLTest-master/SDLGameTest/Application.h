@@ -28,7 +28,7 @@ public://variables
 	ModuleInput* input = nullptr;
 	ModuleRender* renderer = nullptr;
 	ModuleCollisions* collisions = nullptr;
-	ModuleGame* entity = nullptr;
+	ModuleGame* game = nullptr;
 
 private://methods
 

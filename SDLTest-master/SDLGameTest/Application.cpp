@@ -30,8 +30,8 @@ Application::Application()
 	collisions = new ModuleCollisions();
 	appModules.push_back(collisions);
 
-	entity = new ModuleGame();
-	appModules.push_back(entity);
+	game = new ModuleGame();
+	appModules.push_back(game);
 
 }
 
