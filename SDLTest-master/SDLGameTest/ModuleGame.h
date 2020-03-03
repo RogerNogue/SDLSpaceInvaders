@@ -4,6 +4,8 @@
 
 #include "Module.h"
 #include <vector>
+#include <list>
+#include "Globals.h"
 
 //fwd declarations
 
@@ -33,7 +35,7 @@ public:
 public:
 	SDL_Rect* entityRect = nullptr;
 	int health = ENEMY_HEALTHPOINTS;
-
+	Entity* enemyOnTop = nullptr;
 private:
 	bool isPlayer;
 };
@@ -83,8 +85,12 @@ public:
 	std::vector<Entity*> gameEntities =
 		std::vector<Entity*>(NUM_ENEMIES + 1);
 
+	//vector of the obstacles in the game
 	std::vector<Entity*> obstacles =
 		std::vector<Entity*>(NUM_OBSTACLES);
+
+	//list of lowest placed enemies that will shoot
+	std::list<Entity*> lowestEnemies;
 
 	//variables that keeps track of the most right and left side enemies
 	Entity* mostRightEnemy = nullptr;

@@ -145,33 +145,42 @@ update_status ModuleRender::PostUpdate()
 	//render projectiles
 	for (auto proj : App->collisions->listProjectiles)
 	{
-		SDL_RenderCopy(renderer, vecTextures[PLAYER_PROJECTILE], nullptr,
-			proj->projectileRect);
+		if (proj->IsFromPlayer())
+		{
+			SDL_RenderCopy(renderer, vecTextures[PLAYER_PROJECTILE], nullptr,
+				proj->projectileRect);
+		}
+		else
+		{
+			SDL_RenderCopy(renderer, vecTextures[ENEMY_PROJECTILE], nullptr,
+				proj->projectileRect);
+		}
+		
 	}
 
 	//render entities
 	//render player
 	SDL_RenderCopy(	renderer, vecTextures[PLAYERSHIP], nullptr, 
-					App->entity->gameEntities[0]->entityRect);
+					App->game->gameEntities[0]->entityRect);
 
 	//render enemies
-	for (int i = 1; i < App->entity->gameEntities.size(); ++i)
+	for (int i = 1; i < App->game->gameEntities.size(); ++i)
 	{
 		//check if enemy is healthy or not
-		if (App->entity->gameEntities[i]->health == ENEMY_HEALTHPOINTS)
+		if (App->game->gameEntities[i]->health == ENEMY_HEALTHPOINTS)
 		{
 			SDL_RenderCopy(renderer, vecTextures[ENEMYSHIP], nullptr,
-				App->entity->gameEntities[i]->entityRect);
+				App->game->gameEntities[i]->entityRect);
 		}
 		else
 		{
 			SDL_RenderCopy(renderer, vecTextures[ENEMYSHIPHURT], nullptr,
-				App->entity->gameEntities[i]->entityRect);
+				App->game->gameEntities[i]->entityRect);
 		}
 	}
 
 	//render asteroids
-	for (auto obstacles : App->entity->obstacles)
+	for (auto obstacles : App->game->obstacles)
 	{
 		//check its health
 		if (obstacles->health == OBSTACLES_HEALTHPOINTS)

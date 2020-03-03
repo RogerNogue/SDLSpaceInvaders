@@ -32,6 +32,9 @@ enum update_status
 #define ENEMY_DOWN_STEPS 5
 #define ENEMY_SPEED 1
 
+#define ENEMY_FIRE_CHANCE 997
+#define ENEMY_FIRE_MAX_VAL 1000
+
 //////////player definitions//////////
 #define PLAYER_HEALTHPOINTS 5
 #define PLAYER_DIMENSIONS 30

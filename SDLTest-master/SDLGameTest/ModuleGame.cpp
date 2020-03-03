@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "ModuleCollisions.h"
 
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -85,7 +86,7 @@ inline void Projectile::SetRect(int x, int y, int w, int h)
 	projectileRect->h = h;
 }
 
-/////////////////////Module entity/////////////////////
+/////////////////////Module game/////////////////////
 
 
 ModuleGame::ModuleGame()
@@ -122,6 +123,18 @@ bool ModuleGame::Init()
 		
 		gameEntities[i] = new Entity(
 			enemyX, enemyY, ENEMY_DIMENSIONS, ENEMY_DIMENSIONS, false);
+
+		//if lowest, we add to losestEnemies
+		if (i > NUM_ENEMIES - ENEMIES_PER_ROW)
+		{
+			lowestEnemies.push_back(gameEntities[i]);
+		}
+		//if enemy not highest, we fill their pointer to their enemy on top
+		if (i > ENEMIES_PER_ROW+1)
+		{
+			gameEntities[i]->enemyOnTop = gameEntities[i - ENEMIES_PER_ROW];
+		}
+
 		++enemiesAtCurrentRow;
 	}
 	mostLeftEnemy = gameEntities[1];
@@ -231,6 +244,19 @@ update_status ModuleGame::Update()
 		}
 		break;
 	}
+
+	//Enemies firing from time to time
+	for (auto enemy : lowestEnemies)
+	{
+		if (rand() % ENEMY_FIRE_MAX_VAL > ENEMY_FIRE_CHANCE)
+		{
+			if (enemy != nullptr)
+			{
+				App->collisions->EnemyFire(enemy->entityRect);
+			}
+		}
+
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -291,6 +317,25 @@ void ModuleGame::EnemyKilled(Entity* deadEnemy)
 			{
 				mostRightEnemy = gameEntities[i];
 			}
+		}
+	}
+	//check if was lowest in column
+	auto itLowest = lowestEnemies.begin();
+	for (; itLowest != lowestEnemies.end(); ++itLowest)
+	{
+		if (*itLowest == deadEnemy)
+		{
+			//if top enemy dead, forget about them shooting
+			if (deadEnemy->enemyOnTop == nullptr ||
+				deadEnemy->enemyOnTop->health <= 0)
+			{
+				*itLowest = nullptr;
+			}
+			else
+			{
+				*itLowest = deadEnemy->enemyOnTop;
+			}
+			break;
 		}
 	}
 

@@ -24,6 +24,9 @@ public:
 
 	bool CleanUp() override;
 
+	//method that tells us where is the enemy that fired
+	void EnemyFire(const SDL_Rect* enemyRect);
+
 
 public:
 	//since elements will be deleted frequently, list is better than vector

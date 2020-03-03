@@ -3,6 +3,8 @@
 #include "ModuleInput.h"
 #include "ModuleGame.h"
 
+#include <iostream>
+
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <SDL.h>
@@ -32,7 +34,15 @@ update_status ModuleCollisions::Update()
 	//update all projectiles moving them upwards
 	for (auto proj : listProjectiles)
 	{
-		proj->projectileRect->y -= PROJECTILE_SPEED;
+		//checking if it comes from player or not
+		if (proj->IsFromPlayer())
+		{
+			proj->projectileRect->y -= PROJECTILE_SPEED;
+		}
+		else
+		{
+			proj->projectileRect->y += PROJECTILE_SPEED;
+		}
 	}
 	//player firing projectile
 	if (App->input->keyboardState.Fire == KEY_DOWN &&
@@ -40,9 +50,9 @@ update_status ModuleCollisions::Update()
 	{
 		//we fire, projectiles are cleaned at cleanup function
 		//or when they hit/leave screen
-		int playerX = App->entity->gameEntities[0]->entityRect->x +
+		int playerX = App->game->gameEntities[0]->entityRect->x +
 			(PLAYER_DIMENSIONS/2 - PROJECTILE_DIMENSIONS/2);
-		int playerY = App->entity->gameEntities[0]->entityRect->y;
+		int playerY = App->game->gameEntities[0]->entityRect->y;
 		listProjectiles.push_back(new Projectile(playerX, playerY,
 			PROJECTILE_DIMENSIONS, PROJECTILE_DIMENSIONS, true));
 
@@ -59,14 +69,15 @@ update_status ModuleCollisions::Update()
 	{
 		projectileDeleted = false;
 		//delete if it got outside of the screen
-		if ((*it)->projectileRect->y < 0)
+		if ((*it)->projectileRect->y < 0 || 
+			(*it)->projectileRect->y > SCREEN_HEIGHT)
 		{
 			it = listProjectiles.erase(it);
 			projectileDeleted = true;
 		}
 		else
 		{
-			auto entityVector = &App->entity->gameEntities;
+			auto entityVector = &App->game->gameEntities;
 			//lets check collisions
 			//first we check player and proj not being from the player
 			SDL_Rect collisionRect;
@@ -90,10 +101,12 @@ update_status ModuleCollisions::Update()
 			else 
 			{
 				//obstacles
-				auto obstacleVector = &App->entity->obstacles;
+				auto obstacleVector = &App->game->obstacles;
 				for (int i = 0; i < (*obstacleVector).size() && !projectileDeleted; ++i)
 				{
-					if (SDL_IntersectRect(
+					//just player hits obstacles
+					if ((*it)->IsFromPlayer() &&
+						SDL_IntersectRect(
 						(*it)->projectileRect, (*obstacleVector)[i]->entityRect, &collisionRect)
 						== SDL_TRUE)
 					{
@@ -104,6 +117,7 @@ update_status ModuleCollisions::Update()
 						--(*obstacleVector)[i]->health;
 						if ((*obstacleVector)[i]->health <= 0)
 						{
+
 							(*obstacleVector).erase((*obstacleVector).begin() + i);
 
 						}
@@ -113,7 +127,8 @@ update_status ModuleCollisions::Update()
 				for (int i = 1; i < (*entityVector).size() && !projectileDeleted; ++i)
 				{
 					//if collided, we delete it and lower health of impacted
-					if (SDL_IntersectRect(
+					if ((*it)->IsFromPlayer() &&
+						SDL_IntersectRect(
 						(*it)->projectileRect, (*entityVector)[i]->entityRect, &collisionRect)
 						== SDL_TRUE)
 					{
@@ -125,11 +140,10 @@ update_status ModuleCollisions::Update()
 						if ((*entityVector)[i]->health <= 0)
 						{
 							//TODO(Roger): check if we won
-							App->entity->EnemyKilled((*entityVector)[i]);
+							App->game->EnemyKilled((*entityVector)[i]);
 							//erase the i-th element. Destructor is called
 							(*entityVector).erase((*entityVector).begin() + (i));
 						}
-
 					}
 					
 				}
@@ -142,6 +156,15 @@ update_status ModuleCollisions::Update()
 		}
 	}
 	return UPDATE_CONTINUE;
+}
+
+void ModuleCollisions::EnemyFire(const SDL_Rect* enemyRect)
+{
+	int projX = enemyRect->x +
+		(ENEMY_DIMENSIONS / 2 - PROJECTILE_DIMENSIONS / 2);
+	int projY = enemyRect->y + ENEMY_DIMENSIONS/2;
+	listProjectiles.push_back(new Projectile(projX, projY,
+		PROJECTILE_DIMENSIONS, PROJECTILE_DIMENSIONS, false));
 }
 
 bool ModuleCollisions::CleanUp() 
