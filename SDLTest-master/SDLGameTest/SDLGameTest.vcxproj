@@ -155,6 +155,7 @@ COPY $(SolutionDir)\Libraries\SDL2_image-2.0.5\lib\$(PlatformTarget)\*.dll $(Tar
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModuleCollisions.cpp" />
+    <ClCompile Include="ModuleEndGameMenu.cpp" />
     <ClCompile Include="ModuleGameLoop.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleGame.cpp" />
@@ -166,6 +167,7 @@ COPY $(SolutionDir)\Libraries\SDL2_image-2.0.5\lib\$(PlatformTarget)\*.dll $(Tar
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleCollisions.h" />
+    <ClInclude Include="ModuleEndGameMenu.h" />
     <ClInclude Include="ModuleGameLoop.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleGame.h" />

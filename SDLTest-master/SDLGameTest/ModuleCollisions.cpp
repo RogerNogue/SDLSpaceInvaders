@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleGame.h"
+#include "ModuleGameLoop.h"
 
 #include <iostream>
 
@@ -50,9 +51,9 @@ update_status ModuleCollisions::Update()
 	{
 		//we fire, projectiles are cleaned at cleanup function
 		//or when they hit/leave screen
-		int playerX = App->game->gameEntities[0]->entityRect->x +
+		int playerX = App->gameLoop->game->gameEntities[0]->entityRect->x +
 			(PLAYER_DIMENSIONS/2 - PROJECTILE_DIMENSIONS/2);
-		int playerY = App->game->gameEntities[0]->entityRect->y;
+		int playerY = App->gameLoop->game->gameEntities[0]->entityRect->y;
 		listProjectiles.push_back(new Projectile(playerX, playerY,
 			PROJECTILE_DIMENSIONS, PROJECTILE_DIMENSIONS, true));
 
@@ -77,7 +78,7 @@ update_status ModuleCollisions::Update()
 		}
 		else
 		{
-			auto entityVector = &App->game->gameEntities;
+			auto entityVector = &App->gameLoop->game->gameEntities;
 			//lets check collisions
 			//first we check player and proj not being from the player
 			SDL_Rect collisionRect;
@@ -101,7 +102,7 @@ update_status ModuleCollisions::Update()
 			else 
 			{
 				//obstacles
-				auto obstacleVector = &App->game->obstacles;
+				auto obstacleVector = &App->gameLoop->game->obstacles;
 				for (int i = 0; i < (*obstacleVector).size() && !projectileDeleted; ++i)
 				{
 					//just player hits obstacles
@@ -140,7 +141,7 @@ update_status ModuleCollisions::Update()
 						if ((*entityVector)[i]->health <= 0)
 						{
 							//TODO(Roger): check if we won
-							App->game->EnemyKilled((*entityVector)[i]);
+							App->gameLoop->game->EnemyKilled((*entityVector)[i]);
 							//erase the i-th element. Destructor is called
 							(*entityVector).erase((*entityVector).begin() + (i));
 						}

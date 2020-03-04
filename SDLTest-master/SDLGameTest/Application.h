@@ -9,7 +9,7 @@
 class ModuleRender;
 class ModuleInput;
 class ModuleCollisions;
-class ModuleGame;
+class ModuleGameLoop;
 
 class Application final
 {
@@ -28,7 +28,7 @@ public://variables
 	ModuleInput* input = nullptr;
 	ModuleRender* renderer = nullptr;
 	ModuleCollisions* collisions = nullptr;
-	ModuleGame* game = nullptr;
+	ModuleGameLoop* gameLoop = nullptr;
 
 private://methods
 

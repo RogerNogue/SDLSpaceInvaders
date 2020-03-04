@@ -1,6 +1,7 @@
 #include "ModuleRender.h"
 #include "Application.h"
 #include "ModuleGame.h"
+#include "ModuleGameLoop.h"
 #include "ModuleCollisions.h"
 #include "SDL_ttf.h"
 
@@ -183,26 +184,26 @@ update_status ModuleRender::PostUpdate()
 	//render entities
 	//render player
 	SDL_RenderCopy(	renderer, vecTextures[PLAYERSHIP], nullptr, 
-					App->game->gameEntities[0]->entityRect);
+					App->gameLoop->game->gameEntities[0]->entityRect);
 
 	//render enemies
-	for (int i = 1; i < App->game->gameEntities.size(); ++i)
+	for (int i = 1; i < App->gameLoop->game->gameEntities.size(); ++i)
 	{
 		//check if enemy is healthy or not
-		if (App->game->gameEntities[i]->health == ENEMY_HEALTHPOINTS)
+		if (App->gameLoop->game->gameEntities[i]->health == ENEMY_HEALTHPOINTS)
 		{
 			SDL_RenderCopy(renderer, vecTextures[ENEMYSHIP], nullptr,
-				App->game->gameEntities[i]->entityRect);
+				App->gameLoop->game->gameEntities[i]->entityRect);
 		}
 		else
 		{
 			SDL_RenderCopy(renderer, vecTextures[ENEMYSHIPHURT], nullptr,
-				App->game->gameEntities[i]->entityRect);
+				App->gameLoop->game->gameEntities[i]->entityRect);
 		}
 	}
 
 	//render asteroids
-	for (auto obstacles : App->game->obstacles)
+	for (auto obstacles : App->gameLoop->game->obstacles)
 	{
 		//check its health
 		if (obstacles->health == OBSTACLES_HEALTHPOINTS)

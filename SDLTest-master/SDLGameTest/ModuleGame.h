@@ -1,7 +1,6 @@
 #ifndef _MODULEPLAYER_
 #define _MODULEPLAYER_
 
-
 #include "Module.h"
 #include <vector>
 #include <list>
