@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "ModuleGame.h"
 #include "ModuleCollisions.h"
+#include "SDL_ttf.h"
+
+#include<iostream>
 
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -11,6 +14,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
 #endif
+
+SDL_Texture* fontTexture;
+SDL_Rect* fontRect;
 
 ModuleRender::ModuleRender()
 	:Module()
@@ -126,6 +132,22 @@ bool ModuleRender::Init()
 		return false;
 	}
 
+	//test fonts 
+	if (TTF_Init() < 0)
+	{
+		//TODO(Roger): error init ttf
+	}
+	TTF_Font* font = TTF_OpenFont("Assets/Fonts/OpenSans.ttf", 24);
+	std::cout << TTF_GetError() << std::endl;
+	SDL_Color white = { 255, 255, 255 };
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "Test Fonts", white);
+	fontTexture = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	fontRect = new SDL_Rect;
+	fontRect->x = 0;
+	fontRect->y = 0;
+	fontRect->w = SCREEN_WIDTH;
+	fontRect->h = SCREEN_HEIGHT/2;
+
 	//initialize background rect, its deleted in the cleanup
 	backgroundRect = new SDL_Rect;
 	backgroundRect->x = 0;
@@ -194,6 +216,8 @@ update_status ModuleRender::PostUpdate()
 				obstacles->entityRect);
 		}
 	}
+	SDL_RenderCopy(renderer, fontTexture, nullptr,
+		fontRect);
 	
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
