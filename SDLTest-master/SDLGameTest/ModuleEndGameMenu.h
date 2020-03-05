@@ -9,6 +9,12 @@ public:
 	ModuleEndGameMenu();
 
 	~ModuleEndGameMenu();
+
+	bool Init()override;
+
+	update_status Update() override;
+
+	bool CleanUp()override;
 };
 
 #endif
