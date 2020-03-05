@@ -179,6 +179,10 @@ void ModuleGame::MoveEnemies(int x, int y)
 //treats input and updates player and enemies
 update_status ModuleGame::Update()
 {
+	//TODO(Roger): increase speed of enemies scaling with:
+	//1 enemies dead
+	//2 how far down they have gone
+
 	//player movement update
 	if (App->input->keyboardState.Left == KEY_DOWN && 
 		gameEntities[0]->entityRect->x > LEFT_BORDER_POSITION)
