@@ -46,4 +46,29 @@ private://variables
 	SDL_Rect* backgroundRect = nullptr;
 };
 
+//class that contains info about a text
+class MenuText final
+{
+public:
+	MenuText(int x, int y, int w, int h, const char* text);
+
+	~MenuText();
+
+	SDL_Rect* GetRect()const;
+
+	void SetRect(int x, int y, int h, int w);
+
+	std::string GetText()const;
+
+	void SetText(const char* text);
+
+public://variables
+	bool highlighted = false;
+
+private://variables
+	SDL_Rect* textRect = nullptr;
+	std::string text = nullptr;
+
+};
+
 #endif 

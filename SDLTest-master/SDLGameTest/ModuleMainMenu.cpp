@@ -1,4 +1,5 @@
 #include "ModuleMainMenu.h"
+#include "ModuleRender.h"
 
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -13,7 +14,7 @@
 
 ModuleMainMenu::ModuleMainMenu()
 {
-
+	playButton = new MenuText(1, 1, 1, 1, "Play");
 }
 
 ModuleMainMenu::~ModuleMainMenu()
@@ -35,40 +36,4 @@ update_status ModuleMainMenu::Update()
 bool ModuleMainMenu::CleanUp()
 {
 	return true;
-}
-
-
-//////////Menu Text class//////////
-
-MenuText::MenuText(int x, int y, int h, int w, char* text)
-{
-	this->text = text;
-	textRect = new SDL_Rect;
-	textRect->x = x; textRect->y = y;
-	textRect->w = w; textRect->h = h;
-}
-
-MenuText::~MenuText()
-{
-	SAFE_RELEASE(textRect);
-}
-
-SDL_Rect* MenuText::GetRect()const
-{
-	return textRect;
-}
-
-void MenuText::SetRect(int x, int y, int h, int w)
-{
-
-}
-
-std::string MenuText::GetText()const
-{
-	return text;
-}
-
-void MenuText::SetText(const char* text)
-{
-
 }

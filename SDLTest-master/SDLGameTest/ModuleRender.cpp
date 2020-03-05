@@ -217,8 +217,8 @@ update_status ModuleRender::PostUpdate()
 				obstacles->entityRect);
 		}
 	}
-	SDL_RenderCopy(renderer, fontTexture, nullptr,
-		fontRect);
+	/*SDL_RenderCopy(renderer, fontTexture, nullptr,
+		fontRect);*/
 	
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
@@ -237,4 +237,40 @@ bool ModuleRender::CleanUp()
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 	return true;
+}
+
+
+//////////Menu Text class//////////
+
+MenuText::MenuText(int x, int y, int h, int w, const char* text)
+{
+	this->text = text;
+	textRect = new SDL_Rect;
+	textRect->x = x; textRect->y = y;
+	textRect->w = w; textRect->h = h;
+}
+
+MenuText::~MenuText()
+{
+	SAFE_RELEASE(textRect);
+}
+
+SDL_Rect* MenuText::GetRect()const
+{
+	return textRect;
+}
+
+void MenuText::SetRect(int x, int y, int h, int w)
+{
+
+}
+
+std::string MenuText::GetText()const
+{
+	return text;
+}
+
+void MenuText::SetText(const char* text)
+{
+
 }
