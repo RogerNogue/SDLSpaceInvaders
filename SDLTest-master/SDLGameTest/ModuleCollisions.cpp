@@ -94,7 +94,7 @@ update_status ModuleCollisions::Update()
 				--(*entityVector)[0]->health;
 				if ((*entityVector)[0]->health <= 0)
 				{
-					//TODO(Roger):endGame
+					App->gameLoop->currentState = END_MENU;
 				}
 
 			}
@@ -140,10 +140,16 @@ update_status ModuleCollisions::Update()
 						--(*entityVector)[i]->health;
 						if ((*entityVector)[i]->health <= 0)
 						{
-							//TODO(Roger): check if we won
+							App->gameLoop->score += SCORE_PER_KILL;
+							
 							App->gameLoop->game->EnemyKilled((*entityVector)[i]);
 							//erase the i-th element. Destructor is called
 							(*entityVector).erase((*entityVector).begin() + (i));
+							//TODO(Roger): check if we won
+							if (entityVector->size() == 1)
+							{
+								App->gameLoop->currentState = END_MENU;
+							}
 						}
 					}
 					
