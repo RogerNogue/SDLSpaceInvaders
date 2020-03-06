@@ -277,7 +277,7 @@ update_status ModuleGame::Update()
 		{
 			if (enemy != nullptr)
 			{
-				App->collisions->EnemyFire(enemy->entityRect);
+				App->gameLoop->collisions->EnemyFire(enemy->entityRect);
 			}
 		}
 

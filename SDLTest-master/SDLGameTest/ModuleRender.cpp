@@ -166,7 +166,7 @@ update_status ModuleRender::PostUpdate()
 	SDL_RenderCopy(renderer, vecTextures[BACKGROUND], nullptr, backgroundRect);
 
 	//render projectiles
-	for (auto proj : App->collisions->listProjectiles)
+	for (auto proj : App->gameLoop->collisions->listProjectiles)
 	{
 		if (proj->IsFromPlayer())
 		{

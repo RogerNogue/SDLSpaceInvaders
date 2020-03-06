@@ -41,6 +41,9 @@ bool ModuleMainMenu::Init()
 
 void ModuleMainMenu::EnterMenu()
 {
+	topScoreValue->SetText(std::to_string(App->gameLoop->topScore).c_str(),
+		App->renderer->renderer);
+
 	playButton->Enable();
 	topScoreText->Enable();
 	topScoreValue->Enable();

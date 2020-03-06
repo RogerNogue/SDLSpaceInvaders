@@ -95,6 +95,7 @@ update_status ModuleCollisions::Update()
 				if ((*entityVector)[0]->health <= 0)
 				{
 					App->gameLoop->currentState = END_MENU;
+					return UPDATE_CONTINUE;
 				}
 
 			}
@@ -149,6 +150,7 @@ update_status ModuleCollisions::Update()
 							if (entityVector->size() == 1)
 							{
 								App->gameLoop->currentState = END_MENU;
+								return UPDATE_CONTINUE;
 							}
 						}
 					}
