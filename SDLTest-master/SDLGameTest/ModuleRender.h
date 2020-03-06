@@ -31,7 +31,7 @@ enum TextureMap
 class MenuText final
 {
 public:
-	MenuText(int x, int y, int w, int h, const char* text);
+	MenuText(int x, int y, int h, int w, const char* text);
 
 	~MenuText();
 
@@ -47,7 +47,7 @@ public:
 
 	inline bool IsEnabled() const { return enabled; }
 
-	void SetText(const char* text);
+	void SetText(const char* text, SDL_Renderer* renderer);
 
 public://variables
 	bool highlighted = false;
@@ -83,13 +83,15 @@ public://methods
 	bool AddTextToRender(MenuText* menuText);
 	bool RemoveTextToRender(MenuText* menuText);
 
+public://variables
+	SDL_Renderer* renderer = nullptr;
+
 private://methods
 	bool AddTexture(const char* file);
 
 private://variables
 	//TODO(Roger):once the game is done, set vector size to amount of sprites
 	std::vector<SDL_Texture*> vecTextures;
-	SDL_Renderer* renderer = nullptr;
 	SDL_Window* window = nullptr;
 	SDL_Rect* backgroundRect = nullptr;
 	//list of texts that modules will be able to modify via methods

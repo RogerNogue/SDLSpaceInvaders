@@ -311,7 +311,10 @@ SDL_Rect* MenuText::GetRect()const
 
 void MenuText::SetRect(int x, int y, int h, int w)
 {
-
+	textRect->x = x;
+	textRect->y = y;
+	textRect->h = h;
+	textRect->w = w;
 }
 
 std::string MenuText::GetText()const
@@ -319,7 +322,11 @@ std::string MenuText::GetText()const
 	return text;
 }
 
-void MenuText::SetText(const char* text)
+void MenuText::SetText(const char* text, SDL_Renderer* renderer)
 {
-
+	this->text = text;
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(
+		font, this->text.c_str(), textColor);
+	fontTexture = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	SDL_FreeSurface(surfaceMessage);
 }
