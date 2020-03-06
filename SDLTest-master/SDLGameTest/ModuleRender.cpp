@@ -217,8 +217,14 @@ update_status ModuleRender::PostUpdate()
 				obstacles->entityRect);
 		}
 	}
-	/*SDL_RenderCopy(renderer, fontTexture, nullptr,
-		fontRect);*/
+	for (auto text : texts)
+	{
+		if (text->IsEnabled())
+		{
+			SDL_RenderCopy(renderer, text->fontTexture, nullptr,
+				text->GetRect());
+		}
+	}
 	
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
@@ -232,6 +238,12 @@ bool ModuleRender::CleanUp()
 		SDL_DestroyTexture(texture);
 	}
 	vecTextures.clear();
+	//clean the texts
+	for (auto text : texts)
+	{
+		text->~MenuText();
+	}
+	texts.clear();
 	SAFE_RELEASE(backgroundRect);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -251,6 +263,13 @@ bool ModuleRender::AddTextToRender(MenuText* menuText)
 			return false;
 		}
 	}
+	//add all the info for the menuText
+	menuText->font = TTF_OpenFont("Assets/Fonts/OpenSans.ttf", 24);
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(
+		menuText->font, menuText->GetText().c_str(), menuText->textColor);
+	menuText->fontTexture = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	SDL_FreeSurface(surfaceMessage);
+
 	texts.push_back(menuText);
 }
 bool ModuleRender::RemoveTextToRender(MenuText* menuText)
@@ -279,6 +298,9 @@ MenuText::MenuText(int x, int y, int h, int w, const char* text)
 
 MenuText::~MenuText()
 {
+	SDL_DestroyTexture(fontTexture);
+	//SAFE_RELEASE(fontTexture);
+	//SAFE_RELEASE(font);
 	SAFE_RELEASE(textRect);
 }
 

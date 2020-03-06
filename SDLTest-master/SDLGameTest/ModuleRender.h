@@ -5,6 +5,8 @@
 #include <list>
 #include <string>
 
+#include "SDL_ttf.h"
+
 //fwd declarations
 class SDL_Renderer;
 class SDL_Texture;
@@ -43,10 +45,17 @@ public:
 
 	inline void Disable() { enabled = false; }
 
+	inline bool IsEnabled() const { return enabled; }
+
 	void SetText(const char* text);
 
 public://variables
 	bool highlighted = false;
+
+	//rendering variables
+	SDL_Texture* fontTexture = nullptr;
+	SDL_Color textColor = { 255, 255, 255 };
+	TTF_Font* font = nullptr;
 
 private://variables
 	SDL_Rect* textRect = nullptr;
