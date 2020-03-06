@@ -3,6 +3,8 @@
 
 #include "ModuleInput.h"
 #include "ModuleCollisions.h"
+#include "ModuleRender.h"
+#include "ModuleGameLoop.h"
 
 //sdl includes
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
@@ -149,6 +151,17 @@ bool ModuleGame::Init()
 		obstacles[i]->health = OBSTACLES_HEALTHPOINTS;
 	}
 
+	//init game text
+	currentScoreText = new MenuText(117, 0, 50, 100, "Score: ");
+	std::string scoreValue = std::to_string(App->gameLoop->score);
+	currentScoreValue = new MenuText(217, 0, 50, 30, scoreValue.c_str());
+
+	App->renderer->AddTextToRender(currentScoreText);
+	App->renderer->AddTextToRender(currentScoreValue);
+	//they start disabled
+	currentScoreText->Disable();
+	currentScoreValue->Disable();
+
 	return true;
 }
 
@@ -163,6 +176,14 @@ bool ModuleGame::CleanUp()
 	{
 		SAFE_RELEASE(obst);
 	}
+	//free texts
+	App->renderer->RemoveTextToRender(currentScoreText);
+	currentScoreText->~MenuText();
+	SAFE_RELEASE(currentScoreText);
+
+	App->renderer->RemoveTextToRender(currentScoreValue);
+	currentScoreValue->~MenuText();
+	SAFE_RELEASE(currentScoreValue);
 
 	return true;
 }
@@ -261,6 +282,11 @@ update_status ModuleGame::Update()
 		}
 
 	}
+
+	//update score text value
+	currentScoreValue->SetText(std::to_string(App->gameLoop->score).c_str(),
+		App->renderer->renderer);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -347,8 +373,12 @@ void ModuleGame::EnemyKilled(Entity* deadEnemy)
 
 void ModuleGame::EnterMenu()
 {
+	currentScoreText->Enable();
+	currentScoreValue->Enable();
 }
 
 void ModuleGame::LeaveMenu()
 {
+	currentScoreText->Disable();
+	currentScoreValue->Disable();
 }

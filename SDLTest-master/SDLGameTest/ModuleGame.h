@@ -9,6 +9,7 @@
 //fwd declarations
 
 class SDL_Rect;
+class MenuText;
 
 enum enemiesState
 {
@@ -107,6 +108,9 @@ public:
 	int stepsDown = 0;
 
 	enemiesState enemState = MOVING_RIGHT;
+
+	MenuText* currentScoreText;
+	MenuText* currentScoreValue;
 	
 };
 

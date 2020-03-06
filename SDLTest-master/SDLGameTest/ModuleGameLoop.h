@@ -38,6 +38,8 @@ public://variables
 	ModuleEndGameMenu* endMenu = nullptr;
 
 	gameState currentState = MAIN_MENU;
+	int score = 0;
+	int topScore = 0;
 
 };
 

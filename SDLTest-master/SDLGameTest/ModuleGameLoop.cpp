@@ -49,6 +49,7 @@ update_status ModuleGameLoop::Update()
 		{
 			mainMenu->LeaveMenu();
 			game->EnterMenu();
+			score = 0;
 		}
 		break;
 	case INGAME:
@@ -57,6 +58,10 @@ update_status ModuleGameLoop::Update()
 		{
 			game->LeaveMenu();
 			endMenu->EnterMenu();
+			if (score > topScore)
+			{
+				topScore = score;
+			}
 		}
 		break;
 	case END_MENU:
