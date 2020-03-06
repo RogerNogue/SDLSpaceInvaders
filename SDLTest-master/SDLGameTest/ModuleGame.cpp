@@ -344,3 +344,11 @@ void ModuleGame::EnemyKilled(Entity* deadEnemy)
 	}
 
 }
+
+void ModuleGame::EnterMenu()
+{
+}
+
+void ModuleGame::LeaveMenu()
+{
+}

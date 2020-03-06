@@ -15,6 +15,12 @@ public:
 	update_status Update() override;
 
 	bool CleanUp()override;
+
+	void EnterMenu();
+
+	void LeaveMenu();
+
+
 };
 
 #endif

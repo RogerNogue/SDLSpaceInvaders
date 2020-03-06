@@ -79,6 +79,10 @@ public:
 	//method that re calculates enemy boundaries when one died
 	void EnemyKilled(Entity* deadEnemy);
 
+	void EnterMenu();
+
+	void LeaveMenu();
+
 public:
 	//first position is for the player
 	std::vector<Entity*> gameEntities =

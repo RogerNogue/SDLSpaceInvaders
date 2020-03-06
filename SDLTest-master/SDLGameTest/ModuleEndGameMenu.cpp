@@ -25,3 +25,11 @@ bool ModuleEndGameMenu::CleanUp()
 {
 	return true;
 }
+
+void ModuleEndGameMenu::EnterMenu()
+{
+}
+
+void ModuleEndGameMenu::LeaveMenu()
+{
+}

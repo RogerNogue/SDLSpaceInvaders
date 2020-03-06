@@ -29,14 +29,15 @@ public:
 
 	bool CleanUp() override;
 
+	void SwitchStates();
+
 public://variables
 
 	ModuleMainMenu* mainMenu = nullptr;
 	ModuleGame* game = nullptr;
 	ModuleEndGameMenu* endMenu = nullptr;
 
-private://variables
-	gameState currentState = INGAME;
+	gameState currentState = MAIN_MENU;
 
 };
 

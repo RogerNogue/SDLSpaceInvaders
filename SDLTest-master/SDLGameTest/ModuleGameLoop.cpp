@@ -38,21 +38,37 @@ bool ModuleGameLoop::Init()
 
 update_status ModuleGameLoop::Update()
 {
+	gameState initialState = currentState;
+	update_status retValue = UPDATE_STOP;
 	switch (currentState)
 	{
 	case MAIN_MENU:
-
+		retValue = mainMenu->Update();
+		//check state switching
+		if (currentState == INGAME)
+		{
+			mainMenu->LeaveMenu();
+			game->EnterMenu();
+		}
 		break;
 	case INGAME:
-		return game->Update();
+		retValue =  game->Update();
+		if (currentState == END_MENU)
+		{
+			game->LeaveMenu();
+			endMenu->EnterMenu();
+		}
 		break;
 	case END_MENU:
-
+		retValue = endMenu->Update();
+		if (currentState == MAIN_MENU)
+		{
+			endMenu->LeaveMenu();
+			mainMenu->EnterMenu();
+		}
 		break;
 	}
-
-	//game in no state, should probably stop
-	return UPDATE_STOP;
+	return retValue;
 }
 
 bool ModuleGameLoop::CleanUp()

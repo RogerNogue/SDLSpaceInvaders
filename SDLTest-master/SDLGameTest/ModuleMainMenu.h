@@ -19,6 +19,9 @@ public:
 	update_status Update() override;
 
 	bool CleanUp()override;
+	
+	void EnterMenu();
+	void LeaveMenu();
 
 public://variables
 	MenuText* playButton;
