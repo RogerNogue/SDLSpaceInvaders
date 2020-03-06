@@ -239,6 +239,33 @@ bool ModuleRender::CleanUp()
 	return true;
 }
 
+bool ModuleRender::AddTextToRender(MenuText* menuText)
+{
+	bool containsElement = false;
+	for (auto elem : texts)
+	{
+		if (elem == menuText)
+		{
+			//element already there, we just leave
+			containsElement = true;
+			return false;
+		}
+	}
+	texts.push_back(menuText);
+}
+bool ModuleRender::RemoveTextToRender(MenuText* menuText)
+{
+	for (auto itList = texts.begin(); itList != texts.end(); ++itList)
+	{
+		if ((*itList) == menuText)
+		{
+			//element found, we erase it
+			texts.erase(itList);
+			return true;
+		}
+	}
+}
+
 
 //////////Menu Text class//////////
 
