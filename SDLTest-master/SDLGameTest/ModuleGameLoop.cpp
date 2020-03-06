@@ -3,6 +3,7 @@
 #include "ModuleMainMenu.h"
 #include "ModuleGame.h"
 #include "ModuleEndGameMenu.h"
+#include "ModuleCollisions.h"
 
 #include "Globals.h"
 
@@ -25,6 +26,12 @@ bool ModuleGameLoop::Init()
 
 	game = new ModuleGame();
 	if (!game->Init())
+	{
+		return false;
+	}
+
+	collisions = new ModuleCollisions();
+	if (!collisions->Init())
 	{
 		return false;
 	}
@@ -53,15 +60,16 @@ update_status ModuleGameLoop::Update()
 		}
 		break;
 	case INGAME:
-		retValue =  game->Update();
+		retValue = collisions->Update();
+		retValue = game->Update();
 		if (currentState == END_MENU)
 		{
-			game->LeaveMenu();
-			endMenu->EnterMenu();
 			if (score > topScore)
 			{
 				topScore = score;
 			}
+			game->LeaveMenu();
+			endMenu->EnterMenu();
 		}
 		break;
 	case END_MENU:
@@ -80,9 +88,11 @@ bool ModuleGameLoop::CleanUp()
 {
 	mainMenu->CleanUp();
 	game->CleanUp();
+	collisions->CleanUp();
 	endMenu->CleanUp();
 	SAFE_RELEASE(mainMenu);
 	SAFE_RELEASE(game);
+	SAFE_RELEASE(collisions);
 	SAFE_RELEASE(endMenu);
 	return true;
 }

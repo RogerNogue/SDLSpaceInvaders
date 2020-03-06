@@ -11,6 +11,7 @@ enum gameState
 
 class ModuleMainMenu;
 class ModuleGame;
+class ModuleCollisions;
 class ModuleEndGameMenu;
 
 class ModuleGameLoop final:
@@ -34,6 +35,7 @@ public:
 public://variables
 
 	ModuleMainMenu* mainMenu = nullptr;
+	ModuleCollisions* collisions = nullptr;
 	ModuleGame* game = nullptr;
 	ModuleEndGameMenu* endMenu = nullptr;
 
