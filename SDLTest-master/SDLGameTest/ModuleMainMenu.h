@@ -25,6 +25,9 @@ public:
 
 public://variables
 	MenuText* playButton;
+
+	MenuText* topScoreText;
+	MenuText* topScoreValue;
 };
 
 #endif

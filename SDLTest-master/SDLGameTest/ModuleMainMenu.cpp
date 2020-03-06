@@ -18,7 +18,6 @@
 
 ModuleMainMenu::ModuleMainMenu()
 {
-	playButton = new MenuText(1, 1, 50, 50, "Play");
 }
 
 ModuleMainMenu::~ModuleMainMenu()
@@ -28,7 +27,14 @@ ModuleMainMenu::~ModuleMainMenu()
 
 bool ModuleMainMenu::Init()
 {
+	topScoreText = new MenuText(117, 0, 50, 100, "Top Score: ");
+	std::string scoreValue = std::to_string(App->gameLoop->topScore);
+	topScoreValue = new MenuText(217, 0, 50, 30, scoreValue.c_str());
+	playButton = new MenuText(0, 100, 100, 512, "Press fire (spacebar) to play!");
+
 	App->renderer->AddTextToRender(playButton);
+	App->renderer->AddTextToRender(topScoreText);
+	App->renderer->AddTextToRender(topScoreValue);
 	
 	return true;
 }
@@ -36,11 +42,15 @@ bool ModuleMainMenu::Init()
 void ModuleMainMenu::EnterMenu()
 {
 	playButton->Enable();
+	topScoreText->Enable();
+	topScoreValue->Enable();
 }
 
 void ModuleMainMenu::LeaveMenu()
 {
 	playButton->Disable();
+	topScoreText->Disable();
+	topScoreValue->Disable();
 }
 
 update_status ModuleMainMenu::Update()
@@ -57,6 +67,14 @@ update_status ModuleMainMenu::Update()
 bool ModuleMainMenu::CleanUp()
 {
 	//clean texts
+	App->renderer->RemoveTextToRender(topScoreText);
+	topScoreText->~MenuText();
+	SAFE_RELEASE(topScoreText);
+
+	App->renderer->RemoveTextToRender(topScoreValue);
+	topScoreValue->~MenuText();
+	SAFE_RELEASE(topScoreValue);
+	
 	App->renderer->RemoveTextToRender(playButton);
 	playButton->~MenuText();
 	SAFE_RELEASE(playButton);
