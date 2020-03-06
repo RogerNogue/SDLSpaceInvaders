@@ -34,6 +34,7 @@ enum update_status
 
 #define ENEMY_FIRE_CHANCE 997
 #define ENEMY_FIRE_MAX_VAL 1000
+#define SCORE_PER_KILL 5
 
 //////////player definitions//////////
 #define PLAYER_HEALTHPOINTS 5
