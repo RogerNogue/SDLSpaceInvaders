@@ -85,6 +85,8 @@ public:
 
 	void LeaveMenu();
 
+	inline void IncreaseEnemiesSpeed() { enemySpeed += SPEED_INCREASE_PER_EVENT; }
+
 public:
 	//first position is for the player
 	std::vector<Entity*> gameEntities =
@@ -112,6 +114,9 @@ public:
 
 	MenuText* currentScoreText;
 	MenuText* currentScoreValue;
+
+private://variables
+	int enemySpeed = 0;
 	
 };
 
