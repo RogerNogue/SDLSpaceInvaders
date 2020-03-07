@@ -69,6 +69,7 @@ public:
 
 	~ModuleGame();
 
+	bool NewGameInit();
 	bool Init() override;
 
 	bool CleanUp() override;

@@ -25,10 +25,6 @@ bool ModuleGameLoop::Init()
 	}
 
 	game = new ModuleGame();
-	if (!game->Init())
-	{
-		return false;
-	}
 
 	collisions = new ModuleCollisions();
 	if (!collisions->Init())
@@ -54,6 +50,7 @@ update_status ModuleGameLoop::Update()
 		//check state switching
 		if (currentState == INGAME)
 		{
+			game->NewGameInit();
 			mainMenu->LeaveMenu();
 			game->EnterMenu();
 			score = 0;
@@ -70,6 +67,8 @@ update_status ModuleGameLoop::Update()
 			}
 			game->LeaveMenu();
 			endMenu->EnterMenu();
+			game->CleanUp();
+			collisions->CleanUp();
 		}
 		break;
 	case END_MENU:

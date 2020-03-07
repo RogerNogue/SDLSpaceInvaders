@@ -101,12 +101,20 @@ ModuleGame::~ModuleGame()
 
 }
 
+bool ModuleGame::NewGameInit()
+{
+	gameEntities = std::vector<Entity*>(NUM_ENEMIES + 1);
+	obstacles = std::vector<Entity*>(NUM_OBSTACLES);
+	return Init();
+}
+
 bool ModuleGame::Init()
 {
 	//creates and initializes all the entities
 	//we create the player first
 	int playerX = SCREEN_WIDTH/2;
 	int playerY = SCREEN_HEIGHT - PLAYER_DIMENSIONS;
+	
 	gameEntities[0] = new Entity(
 		playerX, playerY, PLAYER_DIMENSIONS, PLAYER_DIMENSIONS, true);
 
@@ -172,10 +180,15 @@ bool ModuleGame::CleanUp()
 	{
 		SAFE_RELEASE(entity);
 	}
+	gameEntities.clear();
+	//obstacles
 	for (auto obst : obstacles)
 	{
 		SAFE_RELEASE(obst);
 	}
+	obstacles.clear();
+	//lowest enemies clearing
+	lowestEnemies.clear();
 	//free texts
 	App->renderer->RemoveTextToRender(currentScoreText);
 	currentScoreText->~MenuText();
