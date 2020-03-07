@@ -116,7 +116,8 @@ public:
 	MenuText* currentScoreValue;
 
 private://variables
-	int enemySpeed = 0;
+	//we need it float because it escalates so much otherwise
+	float enemySpeed = 0;
 	
 };
 

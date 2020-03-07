@@ -38,7 +38,7 @@ enum update_status
 //events are:
 //1: enemies going down one level
 //2: enemy dying
-#define SPEED_INCREASE_PER_EVENT 1
+#define SPEED_INCREASE_PER_EVENT 0.1
 
 //////////player definitions//////////
 #define PLAYER_HEALTHPOINTS 5

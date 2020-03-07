@@ -247,14 +247,14 @@ update_status ModuleGame::Update()
 		if ((mostRightEnemy->entityRect->x + ENEMY_DIMENSIONS) > RIGHT_BORDER_POSITION)
 		{
 			enemState = MOVING_DOWN;
-			MoveEnemies(0, enemySpeed);
+			MoveEnemies(0, static_cast<int>(enemySpeed));
 			++stepsDown;
 			//we also increase the speed by the constant
 			//IncreaseEnemiesSpeed();
 		}
 		else
 		{
-			MoveEnemies(direction* enemySpeed, 0);
+			MoveEnemies(direction* static_cast<int>(enemySpeed), 0);
 		}
 		break;
 	case MOVING_LEFT:
@@ -262,14 +262,14 @@ update_status ModuleGame::Update()
 		if ((mostLeftEnemy->entityRect->x) < LEFT_BORDER_POSITION)
 		{
 			enemState = MOVING_DOWN;
-			MoveEnemies(0, enemySpeed);
+			MoveEnemies(0, static_cast<int>(enemySpeed));
 			++stepsDown;
 			//we also increase the speed by the constant
 			//IncreaseEnemiesSpeed();
 		}
 		else
 		{
-			MoveEnemies(direction * enemySpeed, 0);
+			MoveEnemies(direction * static_cast<int>(enemySpeed), 0);
 		}
 		break;
 	case MOVING_DOWN:
@@ -286,11 +286,11 @@ update_status ModuleGame::Update()
 			}
 			stepsDown = 0;
 			direction *= -1;
-			MoveEnemies(direction * enemySpeed, 0);
+			MoveEnemies(direction * static_cast<int>(enemySpeed), 0);
 		}
 		else
 		{
-			MoveEnemies(0, enemySpeed);
+			MoveEnemies(0, static_cast<int>(enemySpeed));
 			++stepsDown;
 		}
 		break;
