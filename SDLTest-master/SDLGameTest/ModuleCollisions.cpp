@@ -146,12 +146,6 @@ update_status ModuleCollisions::Update()
 							App->gameLoop->game->EnemyKilled((*entityVector)[i]);
 							//erase the i-th element. Destructor is called
 							(*entityVector).erase((*entityVector).begin() + (i));
-							//TODO(Roger): check if we won
-							if (entityVector->size() == 1)
-							{
-								App->gameLoop->currentState = END_MENU;
-								return UPDATE_CONTINUE;
-							}
 						}
 					}
 					

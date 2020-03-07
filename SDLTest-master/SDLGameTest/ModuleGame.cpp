@@ -170,6 +170,8 @@ bool ModuleGame::Init()
 	currentScoreText->Disable();
 	currentScoreValue->Disable();
 
+	enemySpeed = ENEMY_STARTING_SPEED;
+
 	return true;
 }
 
@@ -207,7 +209,14 @@ void ModuleGame::MoveEnemies(int x, int y)
 	{
 		gameEntities[i]->entityRect->x += x;
 		gameEntities[i]->entityRect->y += y;
+		//check if enemy has crossed the bottom end of screen
+		if (x == 0 &&
+			gameEntities[i]->entityRect->y > SCREEN_HEIGHT)
+		{
+			App->gameLoop->currentState = END_MENU;
+		}
 	}
+	
 }
 
 //treats input and updates player and enemies
@@ -238,12 +247,14 @@ update_status ModuleGame::Update()
 		if ((mostRightEnemy->entityRect->x + ENEMY_DIMENSIONS) > RIGHT_BORDER_POSITION)
 		{
 			enemState = MOVING_DOWN;
-			MoveEnemies(0, ENEMY_SPEED);
+			MoveEnemies(0, enemySpeed);
 			++stepsDown;
+			//we also increase the speed by the constant
+			//IncreaseEnemiesSpeed();
 		}
 		else
 		{
-			MoveEnemies(direction*ENEMY_SPEED, 0);
+			MoveEnemies(direction* enemySpeed, 0);
 		}
 		break;
 	case MOVING_LEFT:
@@ -251,12 +262,14 @@ update_status ModuleGame::Update()
 		if ((mostLeftEnemy->entityRect->x) < LEFT_BORDER_POSITION)
 		{
 			enemState = MOVING_DOWN;
-			MoveEnemies(0, ENEMY_SPEED);
+			MoveEnemies(0, enemySpeed);
 			++stepsDown;
+			//we also increase the speed by the constant
+			//IncreaseEnemiesSpeed();
 		}
 		else
 		{
-			MoveEnemies(direction * ENEMY_SPEED, 0);
+			MoveEnemies(direction * enemySpeed, 0);
 		}
 		break;
 	case MOVING_DOWN:
@@ -273,11 +286,11 @@ update_status ModuleGame::Update()
 			}
 			stepsDown = 0;
 			direction *= -1;
-			MoveEnemies(direction * ENEMY_SPEED, 0);
+			MoveEnemies(direction * enemySpeed, 0);
 		}
 		else
 		{
-			MoveEnemies(0, ENEMY_SPEED);
+			MoveEnemies(0, enemySpeed);
 			++stepsDown;
 		}
 		break;
@@ -305,11 +318,15 @@ update_status ModuleGame::Update()
 
 void ModuleGame::EnemyKilled(Entity* deadEnemy)
 {
-	//if no more enemies alive, exit
+	//if the last enemy died, we are done
 	if (gameEntities.size() == 2)
 	{
+		App->gameLoop->currentState = END_MENU;
 		return;
 	}
+
+	//we increase the speed by the constant
+	IncreaseEnemiesSpeed();
 	//check if we have to re calculate a boundary index
 	if (deadEnemy == mostLeftEnemy)
 	{
