@@ -26,6 +26,23 @@ enum TextureMap
 	OBSTACLE_HURT
 };
 
+//class to handle animations
+class Animation
+{
+public:
+	float speed = 1.f;
+	std::vector<SDL_Rect> frames;
+
+private:
+	float current_frame = 0.f;
+
+public:
+	Animation();
+
+	~Animation();
+
+	SDL_Rect* GetCurrentFrame();
+};
 
 //class that contains info about a text
 class MenuText final

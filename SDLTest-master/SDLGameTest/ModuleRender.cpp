@@ -296,6 +296,27 @@ bool ModuleRender::RemoveTextToRender(MenuText* menuText)
 	}
 }
 
+/////////////////////Class Animation/////////////////////
+Animation::Animation()
+{
+
+}
+
+Animation::~Animation()
+{
+
+}
+
+SDL_Rect* Animation::GetCurrentFrame()
+{
+	current_frame += speed;
+	if (current_frame >= frames.size())
+	{
+		current_frame = 0.0f;
+	}
+	return &frames[(int)current_frame];
+}
+
 
 //////////Menu Text class//////////
 
