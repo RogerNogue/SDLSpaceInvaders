@@ -87,6 +87,8 @@ public:
 
 	inline void IncreaseEnemiesSpeed() { enemySpeed += SPEED_INCREASE_PER_EVENT; }
 
+	void HealthChanged(int newValue);
+
 public:
 	//first position is for the player
 	std::vector<Entity*> gameEntities =
@@ -114,6 +116,8 @@ public:
 
 	MenuText* currentScoreText;
 	MenuText* currentScoreValue;
+	MenuText* currentHealthText;
+	MenuText* currentHealthValue;
 
 private://variables
 	//we need it float because it escalates so much otherwise

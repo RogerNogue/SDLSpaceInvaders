@@ -163,10 +163,18 @@ bool ModuleGame::Init()
 	currentScoreText = new MenuText(117, 0, 50, 100, "Score: ");
 	std::string scoreValue = std::to_string(App->gameLoop->score);
 	currentScoreValue = new MenuText(217, 0, 50, 30, scoreValue.c_str());
+	currentHealthText = new MenuText(317, 0, 50, 100, "Health: ");
+	std::string healthValue = std::to_string(PLAYER_HEALTHPOINTS);
+	currentHealthValue = new MenuText(417, 0, 50, 30, healthValue.c_str());
 
-	App->renderer->AddTextToRender(currentScoreText);
+
+	App->renderer->AddTextToRender(currentHealthText);
 	App->renderer->AddTextToRender(currentScoreValue);
+	App->renderer->AddTextToRender(currentScoreText);
+	App->renderer->AddTextToRender(currentHealthValue);
 	//they start disabled
+	currentHealthText->Disable();
+	currentHealthValue->Disable();
 	currentScoreText->Disable();
 	currentScoreValue->Disable();
 
@@ -199,6 +207,14 @@ bool ModuleGame::CleanUp()
 	App->renderer->RemoveTextToRender(currentScoreValue);
 	currentScoreValue->~MenuText();
 	SAFE_RELEASE(currentScoreValue);
+
+	App->renderer->RemoveTextToRender(currentHealthText);
+	currentHealthText->~MenuText();
+	SAFE_RELEASE(currentHealthText);
+
+	App->renderer->RemoveTextToRender(currentHealthValue);
+	currentHealthValue->~MenuText();
+	SAFE_RELEASE(currentHealthValue);
 
 	return true;
 }
@@ -405,10 +421,23 @@ void ModuleGame::EnterMenu()
 {
 	currentScoreText->Enable();
 	currentScoreValue->Enable();
+
+	currentHealthText->Enable();
+	currentHealthValue->Enable();
+
 }
 
 void ModuleGame::LeaveMenu()
 {
 	currentScoreText->Disable();
 	currentScoreValue->Disable();
+
+	currentHealthText->Disable();
+	currentHealthValue->Disable();
+}
+
+void ModuleGame::HealthChanged(int newValue)
+{
+	currentHealthValue->SetText(std::to_string(newValue).c_str(),
+		App->renderer->renderer);
 }

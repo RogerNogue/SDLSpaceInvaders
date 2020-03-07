@@ -92,6 +92,10 @@ update_status ModuleCollisions::Update()
 				projectileDeleted = true;
 				//lower health
 				--(*entityVector)[0]->health;
+				//adapt health text
+				//update score text value
+				App->gameLoop->game->HealthChanged((*entityVector)[0]->health);
+				
 				if ((*entityVector)[0]->health <= 0)
 				{
 					App->gameLoop->currentState = END_MENU;
