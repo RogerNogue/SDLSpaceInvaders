@@ -158,13 +158,8 @@ bool ModuleRender::Init()
 	return true;
 }
 
-update_status ModuleRender::PostUpdate()
+void ModuleRender::RenderGameElements()
 {
-	SDL_RenderClear(renderer);
-
-	//render background
-	SDL_RenderCopy(renderer, vecTextures[BACKGROUND], nullptr, backgroundRect);
-
 	//render projectiles
 	for (auto proj : App->gameLoop->collisions->listProjectiles)
 	{
@@ -178,13 +173,13 @@ update_status ModuleRender::PostUpdate()
 			SDL_RenderCopy(renderer, vecTextures[ENEMY_PROJECTILE], nullptr,
 				proj->projectileRect);
 		}
-		
+
 	}
 
 	//render entities
 	//render player
-	SDL_RenderCopy(	renderer, vecTextures[PLAYERSHIP], nullptr, 
-					App->gameLoop->game->gameEntities[0]->entityRect);
+	SDL_RenderCopy(renderer, vecTextures[PLAYERSHIP], nullptr,
+		App->gameLoop->game->gameEntities[0]->entityRect);
 
 	//render enemies
 	for (int i = 1; i < App->gameLoop->game->gameEntities.size(); ++i)
@@ -217,6 +212,22 @@ update_status ModuleRender::PostUpdate()
 				obstacles->entityRect);
 		}
 	}
+}
+
+update_status ModuleRender::PostUpdate()
+{
+	SDL_RenderClear(renderer);
+
+	//render background
+	SDL_RenderCopy(renderer, vecTextures[BACKGROUND], nullptr, backgroundRect);
+
+	//check if we are ingame for rendering all those stuff
+	if (App->gameLoop->currentState == INGAME)
+	{
+		RenderGameElements();
+	}
+
+	//render text
 	for (auto text : texts)
 	{
 		if (text->IsEnabled())

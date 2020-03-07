@@ -88,6 +88,7 @@ public://variables
 
 private://methods
 	bool AddTexture(const char* file);
+	void RenderGameElements();
 
 private://variables
 	//TODO(Roger):once the game is done, set vector size to amount of sprites
