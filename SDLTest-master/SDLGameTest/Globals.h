@@ -30,11 +30,15 @@ enum update_status
 #define STARTING_ENEMIES_Y 50
 //amount of times enemies go down once reached a corner
 #define ENEMY_DOWN_STEPS 5
-#define ENEMY_SPEED 1
+#define ENEMY_STARTING_SPEED 1
 
 #define ENEMY_FIRE_CHANCE 997
 #define ENEMY_FIRE_MAX_VAL 1000
 #define SCORE_PER_KILL 5
+//events are:
+//1: enemies going down one level
+//2: enemy dying
+#define SPEED_INCREASE_PER_EVENT 1
 
 //////////player definitions//////////
 #define PLAYER_HEALTHPOINTS 5
