@@ -38,7 +38,7 @@ bool ModuleEndGameMenu::Init()
 
 	//other texts
 	gameEndedText = new MenuText(200, 0, 50, 150, "Game Ended:");
-	continueText = new MenuText(0, 300, 50, 512, "Press Space, left and right to continue");
+	continueText = new MenuText(0, 300, 50, 512, "Press Space + left arrow to continue");
 	App->renderer->AddTextToRender(gameEndedText);
 	App->renderer->AddTextToRender(continueText);
 	gameEndedText->Disable();
@@ -50,8 +50,7 @@ bool ModuleEndGameMenu::Init()
 update_status ModuleEndGameMenu::Update()
 {
 	if (App->input->keyboardState.Fire == KEY_DOWN &&
-		App->input->keyboardState.Left == KEY_DOWN &&
-		App->input->keyboardState.Right == KEY_DOWN)
+		App->input->keyboardState.Left == KEY_DOWN)
 	{
 		//we play, so we disable menu stuff
 		App->gameLoop->currentState = MAIN_MENU;

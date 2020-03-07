@@ -30,7 +30,7 @@ bool ModuleMainMenu::Init()
 	topScoreText = new MenuText(117, 0, 50, 100, "Top Score: ");
 	std::string scoreValue = std::to_string(App->gameLoop->topScore);
 	topScoreValue = new MenuText(217, 0, 50, 30, scoreValue.c_str());
-	playButton = new MenuText(0, 100, 100, 512, "Press fire (spacebar) to play!");
+	playButton = new MenuText(0, 100, 50, 512, "Press Space + right arrow to continue");
 
 	App->renderer->AddTextToRender(playButton);
 	App->renderer->AddTextToRender(topScoreText);
@@ -58,7 +58,8 @@ void ModuleMainMenu::LeaveMenu()
 
 update_status ModuleMainMenu::Update()
 {
-	if (App->input->keyboardState.Fire == KEY_DOWN)
+	if (App->input->keyboardState.Fire == KEY_DOWN &&
+		App->input->keyboardState.Right == KEY_DOWN)
 	{
 		//we play, so we disable menu stuff
 		App->gameLoop->currentState = INGAME;
